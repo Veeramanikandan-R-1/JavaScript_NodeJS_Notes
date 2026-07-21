@@ -1,0 +1,19 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+  <rect width="920" height="420" fill="#f8fafc"/>
+  <text x="36" y="44" font-family="Arial" font-size="26" font-weight="700" fill="#0f172a">Node.js Event Loop Phases</text>
+  <g font-family="Arial" font-size="15" fill="#0f172a">
+    <rect x="60" y="105" width="150" height="70" rx="10" fill="#dbeafe" stroke="#2563eb"/><text x="108" y="146">Timers</text>
+    <rect x="250" y="105" width="150" height="70" rx="10" fill="#dcfce7" stroke="#16a34a"/><text x="276" y="146">Pending callbacks</text>
+    <rect x="440" y="105" width="150" height="70" rx="10" fill="#fef3c7" stroke="#d97706"/><text x="500" y="146">Poll</text>
+    <rect x="630" y="105" width="150" height="70" rx="10" fill="#ede9fe" stroke="#7c3aed"/><text x="684" y="146">Check</text>
+    <rect x="345" y="240" width="230" height="70" rx="10" fill="#fee2e2" stroke="#dc2626"/><text x="405" y="282">Close callbacks</text>
+    <text x="61" y="356" font-size="16" fill="#334155">Microtasks run between turns. process.nextTick runs before promise microtasks in Node.js.</text>
+  </g>
+  <path d="M210 140 H250" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M400 140 H440" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M590 140 H630" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M705 175 C705 230 575 220 575 250" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M345 275 C200 275 135 220 135 175" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
+</svg>

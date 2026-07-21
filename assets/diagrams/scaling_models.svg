@@ -1,0 +1,20 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="410" viewBox="0 0 920 410">
+  <rect width="920" height="410" fill="#f8fafc"/>
+  <text x="36" y="44" font-family="Arial" font-size="26" font-weight="700" fill="#0f172a">Node.js Scaling Models</text>
+  <rect x="55" y="100" width="230" height="210" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="100" y="135" font-family="Arial" font-size="19" font-weight="700" fill="#1e3a8a">Thread Pool</text>
+  <text x="85" y="172" font-family="Arial" font-size="14" fill="#1e3a8a">Native background workers</text>
+  <text x="85" y="200" font-family="Arial" font-size="14" fill="#1e3a8a">fs, crypto, dns.lookup</text>
+  <text x="85" y="228" font-family="Arial" font-size="14" fill="#1e3a8a">Mostly invisible to app code</text>
+  <rect x="345" y="100" width="230" height="210" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="415" y="135" font-family="Arial" font-size="19" font-weight="700" fill="#14532d">Cluster</text>
+  <text x="375" y="172" font-family="Arial" font-size="14" fill="#14532d">Multiple Node processes</text>
+  <text x="375" y="200" font-family="Arial" font-size="14" fill="#14532d">Scale HTTP across CPU cores</text>
+  <text x="375" y="228" font-family="Arial" font-size="14" fill="#14532d">No shared memory by default</text>
+  <rect x="635" y="100" width="230" height="210" rx="10" fill="#fef3c7" stroke="#d97706"/>
+  <text x="690" y="135" font-family="Arial" font-size="19" font-weight="700" fill="#78350f">Worker Threads</text>
+  <text x="665" y="172" font-family="Arial" font-size="14" fill="#78350f">Parallel JavaScript workers</text>
+  <text x="665" y="200" font-family="Arial" font-size="14" fill="#78350f">CPU-heavy calculations</text>
+  <text x="665" y="228" font-family="Arial" font-size="14" fill="#78350f">Message passing, optional shared memory</text>
+</svg>

@@ -1,0 +1,20 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="390" viewBox="0 0 920 390">
+  <rect width="920" height="390" fill="#f8fafc"/>
+  <text x="36" y="44" font-family="Arial" font-size="26" font-weight="700" fill="#0f172a">Express Request Lifecycle</text>
+  <g font-family="Arial" font-size="15" fill="#0f172a">
+    <rect x="40" y="105" width="130" height="70" rx="9" fill="#dbeafe" stroke="#2563eb"/><text x="75" y="146">Client</text>
+    <rect x="220" y="105" width="130" height="70" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="250" y="146">Middleware</text>
+    <rect x="400" y="105" width="130" height="70" rx="9" fill="#fef3c7" stroke="#d97706"/><text x="430" y="146">Route</text>
+    <rect x="580" y="105" width="130" height="70" rx="9" fill="#ede9fe" stroke="#7c3aed"/><text x="613" y="146">Service</text>
+    <rect x="760" y="105" width="130" height="70" rx="9" fill="#fee2e2" stroke="#dc2626"/><text x="786" y="146">Database</text>
+    <rect x="305" y="255" width="310" height="65" rx="9" fill="#e2e8f0" stroke="#475569"/><text x="360" y="294">Error middleware maps failures</text>
+  </g>
+  <path d="M170 140 H220" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M350 140 H400" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M530 140 H580" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M710 140 H760" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M825 175 C825 225 465 225 465 255" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M305 288 C180 288 105 230 105 175" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
+</svg>

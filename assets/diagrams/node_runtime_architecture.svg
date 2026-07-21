@@ -1,0 +1,26 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="420" viewBox="0 0 920 420">
+  <rect width="920" height="420" fill="#f8fafc"/>
+  <text x="36" y="44" font-family="Arial" font-size="26" font-weight="700" fill="#0f172a">Node.js Runtime Architecture</text>
+  <rect x="40" y="90" width="220" height="90" rx="10" fill="#dbeafe" stroke="#2563eb"/>
+  <text x="70" y="125" font-family="Arial" font-size="18" font-weight="700" fill="#1e3a8a">JavaScript Code</text>
+  <text x="70" y="152" font-family="Arial" font-size="14" fill="#1e3a8a">Your app, modules, callbacks</text>
+  <rect x="350" y="70" width="220" height="120" rx="10" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="405" y="112" font-family="Arial" font-size="18" font-weight="700" fill="#14532d">V8 Engine</text>
+  <text x="390" y="140" font-family="Arial" font-size="14" fill="#14532d">Parses and runs JavaScript</text>
+  <rect x="650" y="90" width="220" height="90" rx="10" fill="#fef3c7" stroke="#d97706"/>
+  <text x="705" y="125" font-family="Arial" font-size="18" font-weight="700" fill="#78350f">Node APIs</text>
+  <text x="687" y="152" font-family="Arial" font-size="14" fill="#78350f">fs, net, http, crypto, timers</text>
+  <rect x="130" y="270" width="260" height="90" rx="10" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="225" y="305" font-family="Arial" font-size="18" font-weight="700" fill="#4c1d95">libuv</text>
+  <text x="168" y="332" font-family="Arial" font-size="14" fill="#4c1d95">Event loop and thread pool</text>
+  <rect x="530" y="270" width="260" height="90" rx="10" fill="#fee2e2" stroke="#dc2626"/>
+  <text x="607" y="305" font-family="Arial" font-size="18" font-weight="700" fill="#7f1d1d">Operating System</text>
+  <text x="570" y="332" font-family="Arial" font-size="14" fill="#7f1d1d">Sockets, files, DNS, processes</text>
+  <path d="M260 135 H350" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M570 135 H650" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M760 180 C760 245 650 245 650 270" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M460 190 C460 240 300 230 260 270" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M390 315 H530" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
+</svg>

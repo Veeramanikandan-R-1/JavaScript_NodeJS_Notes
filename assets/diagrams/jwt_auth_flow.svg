@@ -1,0 +1,18 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="390" viewBox="0 0 920 390">
+  <rect width="920" height="390" fill="#f8fafc"/>
+  <text x="36" y="44" font-family="Arial" font-size="26" font-weight="700" fill="#0f172a">JWT Authentication Flow</text>
+  <g font-family="Arial" font-size="15" fill="#0f172a">
+    <rect x="60" y="105" width="170" height="70" rx="9" fill="#dbeafe" stroke="#2563eb"/><text x="96" y="146">Login request</text>
+    <rect x="310" y="105" width="170" height="70" rx="9" fill="#dcfce7" stroke="#16a34a"/><text x="334" y="146">Verify password</text>
+    <rect x="560" y="105" width="170" height="70" rx="9" fill="#fef3c7" stroke="#d97706"/><text x="595" y="146">Sign token</text>
+    <rect x="310" y="245" width="170" height="70" rx="9" fill="#ede9fe" stroke="#7c3aed"/><text x="350" y="286">Auth header</text>
+    <rect x="560" y="245" width="220" height="70" rx="9" fill="#fee2e2" stroke="#dc2626"/><text x="596" y="286">Verify signature + claims</text>
+  </g>
+  <path d="M230 140 H310" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M480 140 H560" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M645 175 C645 215 395 205 395 245" fill="none" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M480 280 H560" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="74" y="348" font-family="Arial" font-size="16" fill="#334155">JWT payload is readable. Keep secrets out of claims and protect transport with HTTPS.</text>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
+</svg>

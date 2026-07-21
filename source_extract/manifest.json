@@ -1,0 +1,2682 @@
+{
+  "sources": [
+    {
+      "name": "codeEvolution-youtube.docx",
+      "type": "docx",
+      "paragraphs": 81,
+      "tables": 0,
+      "headings": [],
+      "images": 199,
+      "extract_file": "source_extract/codeevolution_youtube.md"
+    },
+    {
+      "name": "revisionnotes_1.docx",
+      "type": "docx",
+      "paragraphs": 1386,
+      "tables": 6,
+      "headings": [
+        "\ud83d\udccc path Module in Node.js",
+        "\ud83d\udd39 What it is",
+        "\ud83d\udd11 Commonly Used Methods",
+        "1. path.join([...paths])",
+        "2. path.resolve([...paths])",
+        "3. path.isAbsolute(path)",
+        "4. path.basename(path, [ext])",
+        "5. path.dirname(path)",
+        "6. path.extname(path)",
+        "7. path.parse(path)",
+        "8. path.format(obj)",
+        "9. path.normalize(path)",
+        "10. path.sep & path.delimiter",
+        "\ud83d\udccc Interview Angle",
+        "\ud83d\udccc Absolute Path vs Relative Path in Node.js",
+        "\ud83d\udd39 Absolute Path",
+        "\ud83d\udd39 Relative Path",
+        "\ud83d\udd11 Key Differences (Interview Style)",
+        "\u26a1 Pro Tip (Common Interview Trap)",
+        "\ud83d\udd25 Node.js Path Interview Questions (with Answers)",
+        "Q1. What\u2019s the difference between __dirname and process.cwd()?",
+        "Q2. Difference between path.join() and path.resolve()?",
+        "Q3. Why is relative path (./file.txt) risky in Node.js apps?",
+        "Q4. How do you make your file paths cross-platform (Windows vs Linux)?",
+        "Q5. What does path.normalize() do?",
+        "Q6. How do you extract only the file name or extension from a path?",
+        "Q7. How to ensure a path is absolute in Node.js before using it?",
+        "Q8. Trick Question:",
+        "Q9. Real-world: How do you serve static files using path safely?",
+        "Q10. What happens if you run this?",
+        "\ud83d\udd11 Why do we need Buffers in Node.js?",
+        "\ud83d\udccc Example 1: Reading file as Buffer",
+        "\ud83d\udccc Example 2: Creating Buffer manually",
+        "\ud83d\udccc Example 3: Buffers with Network",
+        "\ud83d\udccc Key Benefits of Buffers",
+        "\ud83d\udccc Summary",
+        "\ud83d\udccc Node.js fs Module (File System)",
+        "\ud83d\udd39 What it is",
+        "\ud83d\udd11 Commonly Used Methods",
+        "1. Reading a File",
+        "2. Writing to a File",
+        "3. Appending to a File",
+        "4. Check if File Exists",
+        "5. Deleting a File",
+        "6. Creating/Removing Directories",
+        "\ud83d\udd39 What happens without { recursive: true }",
+        "\ud83d\udd39 What happens with { recursive: true }",
+        "\u2705 Why we need recursive: true",
+        "7. Reading a Directory",
+        "8. Watching Files",
+        "9. Working with Streams",
+        "\ud83d\udccc Key Interview Questions & Answers",
+        "Q1. Difference between fs.readFile and fs.createReadStream?",
+        "Q2. Why prefer async fs methods over sync?",
+        "Q3. How do you safely resolve file paths when using fs?",
+        "Q4. How to handle JSON file read/write with fs?",
+        "Q5. What\u2019s the difference between fs.existsSync and fs.access?",
+        "Q6. Real-world Example: Log Rotation",
+        "\ud83d\udccc Node.js events Module",
+        "\ud83d\udd39 What it is",
+        "\ud83d\udcdd Example: Basic EventEmitter",
+        "\ud83d\udd11 Commonly Used Methods",
+        "1. Register an Event Listener",
+        "2. Emit (Trigger) an Event",
+        "3. One-Time Listener",
+        "4. Remove Listener",
+        "5. Get Listener Info",
+        "\ud83d\udccc Real-World Example: Server",
+        "\ud83c\udfc6 Common Interview Questions",
+        "Q1. Difference between on and once?",
+        "Q2. How is EventEmitter related to Streams?",
+        "Q3. What is the default max listener count?",
+        "Q4. What design pattern does EventEmitter follow?",
+        "Q5. Real-world use case?",
+        "\ud83d\udccc Extending EventEmitter in Node.js",
+        "\ud83d\udcdd Example: Custom Logger Class",
+        "\ud83d\udd11 Why do this?",
+        "\ud83c\udfc6 Advanced Interview Questions",
+        "Q1. Why extend instead of just using an EventEmitter instance?",
+        "Q2. Can you override emit or on?",
+        "Q3. Real-World Scenario?",
+        "\ud83d\udccc Node.js Streams",
+        "\ud83d\udd39 1. Readable Streams",
+        "Example: Reading a file with createReadStream",
+        "\ud83d\udd39 2. Writable Streams",
+        "Example: Writing to a file with createWriteStream",
+        "\ud83d\udd39 3. Piping (Readable \u2192 Writable)",
+        "\ud83d\udd39 4. Duplex & Transform Streams",
+        "Example: Transform (Uppercase)",
+        "\ud83d\udd11 Interview Q&A",
+        "Q1. Difference between readFile and createReadStream?",
+        "Q2. What is backpressure in streams?",
+        "Q3. When to use Writable streams directly vs. pipe?",
+        "Q4. Real-world Uses",
+        "\ud83d\udccc Buffer vs. Stream in Node.js",
+        "\ud83d\udd39 Buffer",
+        "\ud83d\udd39 Stream",
+        "\u2705 Why use Streams if Buffers exist?",
+        "Interview-Style Answer",
+        "\ud83c\udf0d Node.js http Module",
+        "\ud83d\udd39 What it is",
+        "\ud83d\udd11 Creating an HTTP Server",
+        "\ud83d\udd11 Making an HTTP Request (Client)",
+        "\ud83d\udd11 Important Interview Concepts",
+        "1. Request & Response are Streams",
+        "2. HTTP Methods & Routing",
+        "3. Streaming Response (large files)",
+        "4. HTTP vs HTTPS",
+        "5. Performance Note",
+        "\ud83d\udd11 Interview-Style Q&A",
+        "How Node.js Handles Multiple HTTP Requests at Once",
+        "\ud83d\udd11 Step-by-Step Flow",
+        "\ud83d\udd11 Example (Blocking vs Non-blocking)",
+        "\u274c Blocking (Bad for Node)",
+        "\u2705 Non-Blocking (Recommended)",
+        "\ud83d\udd11 Visualization",
+        "\ud83d\udd11 Key Points for Interview",
+        "\u2705 Interview-Ready Answer",
+        "\u26a1 Node.js Event Loop Phases (Deep Dive)",
+        "\ud83d\udd11 Big Picture",
+        "\ud83d\udccc Phases of Event Loop",
+        "1. Timers Phase",
+        "2. Pending Callbacks Phase",
+        "3. Idle, Prepare (internal)",
+        "4. Poll Phase",
+        "5. Check Phase",
+        "6. Close Callbacks Phase",
+        "\ud83d\udd11 Special Queues",
+        "1. Microtask Queue",
+        "\ud83d\udccc Example to Understand Execution Order",
+        "\u2705 Interview-Ready Answer",
+        "\u26a1 Node.js Thread Pool (libuv)",
+        "\ud83d\udd39 What it is",
+        "\ud83d\udccc Which tasks go to the Thread Pool?",
+        "\ud83d\udccc Example: fs.readFile using Thread Pool",
+        "\ud83d\udccc Thread Pool Size",
+        "\ud83d\udccc Thread Pool vs Event Loop",
+        "\ud83d\udccc Interview Q&A",
+        "Q1. If Node.js is single-threaded, how does it handle multiple requests?",
+        "Q2. What happens if your thread pool size is too small?",
+        "Q3. Does HTTP request use thread pool?",
+        "\u26a1 Node.js cluster Module",
+        "\ud83d\udd39 What Problem Does It Solve?",
+        "\ud83d\udccc Example: Simple Cluster Setup",
+        "\ud83d\udccc How It Works",
+        "\ud83d\udccc Benefits",
+        "\ud83d\udccc Limitations",
+        "\ud83d\udccc Real-World Usage",
+        "\ud83d\udccc Interview Q&A",
+        "Q1. Why do we need the cluster module if Node.js is non-blocking?",
+        "Q2. Difference between cluster and worker_threads?",
+        "Q3. How does load balancing work in Node.js cluster?",
+        "\u26a1 Node.js worker_threads Module",
+        "\ud83d\udd39 Why do we need it?",
+        "\ud83d\udccc Example: Basic Worker Thread",
+        "\ud83d\udccc Key Points",
+        "\ud83d\udccc When to Use worker_threads?",
+        "\ud83d\udccc worker_threads vs. cluster",
+        "\ud83d\udccc Real-world Example: Hashing",
+        "\ud83d\udccc Interview Q&A",
+        "Q1. When would you choose worker_threads over cluster?",
+        "Q2. Can workers share memory?",
+        "Q3. Are worker_threads async?",
+        "\u2705 Node.js Interview Topics Checklist",
+        "\ud83d\udd39 Core Modules",
+        "\ud83d\udd39 Streams & Buffers",
+        "\ud83d\udd39 Event Loop & Async Model",
+        "\ud83d\udd39 Concurrency & Parallelism",
+        "\ud83d\udd39 CLI Tools",
+        "\ud83d\udd39 Advanced & Missing Topics (still left to cover)",
+        "\u26a1 Child Processes vs Worker Threads vs Cluster in Node.js",
+        "\ud83d\udd39 1. Child Processes",
+        "\ud83d\udd39 2. Worker Threads",
+        "\ud83d\udd39 3. Cluster Module",
+        "\ud83d\udd04 Key Differences (Interview Table)",
+        "Quick Interview Q&A",
+        "\u26a1 process Object in Node.js",
+        "\ud83d\udd11 Important Utilities in process",
+        "1. Process Information",
+        "2. Process Arguments",
+        "3. Environment Variables",
+        "4. Process Exit",
+        "5. Standard Input / Output (I/O)",
+        "6. Current Working Directory",
+        "7. Memory & Resource Usage",
+        "8. Events",
+        "9. High-resolution Timer",
+        "10. Uptime",
+        "\ud83d\udccc Quick Interview Summary",
+        "\ud83d\udccc Module Systems in Node.js",
+        "\ud83d\udd39 1. CommonJS (CJS)",
+        "\ud83d\udd39 2. ES Modules (ESM)",
+        "\ud83d\udd11 Differences Between require and import",
+        "\ud83d\udd39 Mixing CommonJS and ESM",
+        "\ud83d\udccc Interview-Style Summary",
+        "\ud83d\udd39 Advanced Error Handling in Node.js",
+        "1. Types of Errors in Node.js",
+        "2. Synchronous Error Handling",
+        "3. Asynchronous Error Handling",
+        "4. Global Error Handling"
+      ],
+      "images": 0,
+      "extract_file": "source_extract/revisionnotes_1.md"
+    },
+    {
+      "name": "youtube-code-evolution-advanced-js.docx",
+      "type": "docx",
+      "paragraphs": 1,
+      "tables": 0,
+      "headings": [],
+      "images": 0,
+      "extract_file": "source_extract/youtube_code_evolution_advanced_js.md"
+    },
+    {
+      "name": "completeNodeDev.docx",
+      "type": "docx",
+      "paragraphs": 375,
+      "tables": 2,
+      "headings": [
+        "Key Differences:",
+        "When to Use Each?",
+        "\ud83e\udde9 1. Thread Pool",
+        "\u2699\ufe0f 2. Cluster Module",
+        "\ud83e\uddf5 3. Worker Threads",
+        "\u2696\ufe0f Summary Table",
+        "\ud83e\udde0 First \u2014 What is JWT?",
+        "\ud83d\udd10 Now \u2014 JWT is not encrypted, it\u2019s signed",
+        "\u2705 So JWT is safe because:",
+        "\u26a0\ufe0f Important",
+        "\ud83e\udde9 Simple analogy",
+        "\ud83d\udd11 OAuth (Open Authorization)",
+        "\ud83e\udde0 Example:",
+        "\ud83d\udd10 In short:"
+      ],
+      "images": 184,
+      "extract_file": "source_extract/completenodedev.md"
+    },
+    {
+      "name": "2.1 PDF-Guide-Node-Andrew-Mead-v3.pdf",
+      "type": "pdf",
+      "pages": 125,
+      "pages_with_text": 125,
+      "page_summaries": [
+        {
+          "page": 1,
+          "chars": 63
+        },
+        {
+          "page": 2,
+          "chars": 4670
+        },
+        {
+          "page": 3,
+          "chars": 4574
+        },
+        {
+          "page": 4,
+          "chars": 4587
+        },
+        {
+          "page": 5,
+          "chars": 4651
+        },
+        {
+          "page": 6,
+          "chars": 4614
+        },
+        {
+          "page": 7,
+          "chars": 1999
+        },
+        {
+          "page": 8,
+          "chars": 1219
+        },
+        {
+          "page": 9,
+          "chars": 1411
+        },
+        {
+          "page": 10,
+          "chars": 1681
+        },
+        {
+          "page": 11,
+          "chars": 1707
+        },
+        {
+          "page": 12,
+          "chars": 1408
+        },
+        {
+          "page": 13,
+          "chars": 1348
+        },
+        {
+          "page": 14,
+          "chars": 1755
+        },
+        {
+          "page": 15,
+          "chars": 1286
+        },
+        {
+          "page": 16,
+          "chars": 1305
+        },
+        {
+          "page": 17,
+          "chars": 1091
+        },
+        {
+          "page": 18,
+          "chars": 1332
+        },
+        {
+          "page": 19,
+          "chars": 1430
+        },
+        {
+          "page": 20,
+          "chars": 1487
+        },
+        {
+          "page": 21,
+          "chars": 1520
+        },
+        {
+          "page": 22,
+          "chars": 1043
+        },
+        {
+          "page": 23,
+          "chars": 1695
+        },
+        {
+          "page": 24,
+          "chars": 932
+        },
+        {
+          "page": 25,
+          "chars": 2059
+        },
+        {
+          "page": 26,
+          "chars": 1329
+        },
+        {
+          "page": 27,
+          "chars": 1549
+        },
+        {
+          "page": 28,
+          "chars": 1248
+        },
+        {
+          "page": 29,
+          "chars": 1565
+        },
+        {
+          "page": 30,
+          "chars": 1979
+        },
+        {
+          "page": 31,
+          "chars": 1571
+        },
+        {
+          "page": 32,
+          "chars": 1877
+        },
+        {
+          "page": 33,
+          "chars": 1244
+        },
+        {
+          "page": 34,
+          "chars": 1309
+        },
+        {
+          "page": 35,
+          "chars": 934
+        },
+        {
+          "page": 36,
+          "chars": 1080
+        },
+        {
+          "page": 37,
+          "chars": 1306
+        },
+        {
+          "page": 38,
+          "chars": 1095
+        },
+        {
+          "page": 39,
+          "chars": 1083
+        },
+        {
+          "page": 40,
+          "chars": 938
+        },
+        {
+          "page": 41,
+          "chars": 1327
+        },
+        {
+          "page": 42,
+          "chars": 1029
+        },
+        {
+          "page": 43,
+          "chars": 1278
+        },
+        {
+          "page": 44,
+          "chars": 1125
+        },
+        {
+          "page": 45,
+          "chars": 1082
+        },
+        {
+          "page": 46,
+          "chars": 1002
+        },
+        {
+          "page": 47,
+          "chars": 1410
+        },
+        {
+          "page": 48,
+          "chars": 1502
+        },
+        {
+          "page": 49,
+          "chars": 1518
+        },
+        {
+          "page": 50,
+          "chars": 1120
+        },
+        {
+          "page": 51,
+          "chars": 1306
+        },
+        {
+          "page": 52,
+          "chars": 1304
+        },
+        {
+          "page": 53,
+          "chars": 2027
+        },
+        {
+          "page": 54,
+          "chars": 1619
+        },
+        {
+          "page": 55,
+          "chars": 1176
+        },
+        {
+          "page": 56,
+          "chars": 1523
+        },
+        {
+          "page": 57,
+          "chars": 1806
+        },
+        {
+          "page": 58,
+          "chars": 1410
+        },
+        {
+          "page": 59,
+          "chars": 1626
+        },
+        {
+          "page": 60,
+          "chars": 1459
+        },
+        {
+          "page": 61,
+          "chars": 1031
+        },
+        {
+          "page": 62,
+          "chars": 1565
+        },
+        {
+          "page": 63,
+          "chars": 1029
+        },
+        {
+          "page": 64,
+          "chars": 1181
+        },
+        {
+          "page": 65,
+          "chars": 905
+        },
+        {
+          "page": 66,
+          "chars": 1251
+        },
+        {
+          "page": 67,
+          "chars": 1249
+        },
+        {
+          "page": 68,
+          "chars": 1360
+        },
+        {
+          "page": 69,
+          "chars": 1344
+        },
+        {
+          "page": 70,
+          "chars": 1438
+        },
+        {
+          "page": 71,
+          "chars": 1494
+        },
+        {
+          "page": 72,
+          "chars": 1310
+        },
+        {
+          "page": 73,
+          "chars": 1880
+        },
+        {
+          "page": 74,
+          "chars": 1304
+        },
+        {
+          "page": 75,
+          "chars": 1419
+        },
+        {
+          "page": 76,
+          "chars": 1351
+        },
+        {
+          "page": 77,
+          "chars": 1217
+        },
+        {
+          "page": 78,
+          "chars": 1297
+        },
+        {
+          "page": 79,
+          "chars": 1658
+        },
+        {
+          "page": 80,
+          "chars": 855
+        },
+        {
+          "page": 81,
+          "chars": 1234
+        },
+        {
+          "page": 82,
+          "chars": 1712
+        },
+        {
+          "page": 83,
+          "chars": 1269
+        },
+        {
+          "page": 84,
+          "chars": 1113
+        },
+        {
+          "page": 85,
+          "chars": 1325
+        },
+        {
+          "page": 86,
+          "chars": 1509
+        },
+        {
+          "page": 87,
+          "chars": 1363
+        },
+        {
+          "page": 88,
+          "chars": 1560
+        },
+        {
+          "page": 89,
+          "chars": 1135
+        },
+        {
+          "page": 90,
+          "chars": 1407
+        },
+        {
+          "page": 91,
+          "chars": 1182
+        },
+        {
+          "page": 92,
+          "chars": 1169
+        },
+        {
+          "page": 93,
+          "chars": 1514
+        },
+        {
+          "page": 94,
+          "chars": 1393
+        },
+        {
+          "page": 95,
+          "chars": 1467
+        },
+        {
+          "page": 96,
+          "chars": 971
+        },
+        {
+          "page": 97,
+          "chars": 1320
+        },
+        {
+          "page": 98,
+          "chars": 1319
+        },
+        {
+          "page": 99,
+          "chars": 1037
+        },
+        {
+          "page": 100,
+          "chars": 1224
+        },
+        {
+          "page": 101,
+          "chars": 1373
+        },
+        {
+          "page": 102,
+          "chars": 1844
+        },
+        {
+          "page": 103,
+          "chars": 1196
+        },
+        {
+          "page": 104,
+          "chars": 1209
+        },
+        {
+          "page": 105,
+          "chars": 949
+        },
+        {
+          "page": 106,
+          "chars": 1525
+        },
+        {
+          "page": 107,
+          "chars": 1321
+        },
+        {
+          "page": 108,
+          "chars": 1329
+        },
+        {
+          "page": 109,
+          "chars": 483
+        },
+        {
+          "page": 110,
+          "chars": 1602
+        },
+        {
+          "page": 111,
+          "chars": 1307
+        },
+        {
+          "page": 112,
+          "chars": 1577
+        },
+        {
+          "page": 113,
+          "chars": 1439
+        },
+        {
+          "page": 114,
+          "chars": 1514
+        },
+        {
+          "page": 115,
+          "chars": 1242
+        },
+        {
+          "page": 116,
+          "chars": 1256
+        },
+        {
+          "page": 117,
+          "chars": 1275
+        },
+        {
+          "page": 118,
+          "chars": 1589
+        },
+        {
+          "page": 119,
+          "chars": 1266
+        },
+        {
+          "page": 120,
+          "chars": 1547
+        },
+        {
+          "page": 121,
+          "chars": 1319
+        },
+        {
+          "page": 122,
+          "chars": 943
+        },
+        {
+          "page": 123,
+          "chars": 1501
+        },
+        {
+          "page": 124,
+          "chars": 887
+        },
+        {
+          "page": 125,
+          "chars": 985
+        }
+      ],
+      "extract_file": "source_extract/2_1_pdf_guide_node_andrew_mead_v3.md"
+    }
+  ],
+  "images": [
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image124.png",
+      "bytes": 123823
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image37.png",
+      "bytes": 111470
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image29.png",
+      "bytes": 58338
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image159.png",
+      "bytes": 48241
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image108.png",
+      "bytes": 116045
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image45.png",
+      "bytes": 102980
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image175.png",
+      "bytes": 42700
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image183.png",
+      "bytes": 85864
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image116.png",
+      "bytes": 43969
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image140.png",
+      "bytes": 156664
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image191.png",
+      "bytes": 75795
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image73.png",
+      "bytes": 34618
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image81.png",
+      "bytes": 57736
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image30.png",
+      "bytes": 101183
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image160.png",
+      "bytes": 101502
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image6.png",
+      "bytes": 161424
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image179.png",
+      "bytes": 163820
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image61.png",
+      "bytes": 101249
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image136.png",
+      "bytes": 67337
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image88.png",
+      "bytes": 33773
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image57.png",
+      "bytes": 55643
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image167.png",
+      "bytes": 266013
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image14.png",
+      "bytes": 103935
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image92.png",
+      "bytes": 31247
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image84.png",
+      "bytes": 125033
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image76.png",
+      "bytes": 42765
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image33.png",
+      "bytes": 83918
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image41.png",
+      "bytes": 157841
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image93.png",
+      "bytes": 116428
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image50.png",
+      "bytes": 88876
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image147.png",
+      "bytes": 97245
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image104.png",
+      "bytes": 58335
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image121.png",
+      "bytes": 69769
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image199.png",
+      "bytes": 115974
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image156.png",
+      "bytes": 85954
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image139.png",
+      "bytes": 85448
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image113.png",
+      "bytes": 117183
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image18.png",
+      "bytes": 116681
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image48.png",
+      "bytes": 50111
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image151.png",
+      "bytes": 119615
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image22.png",
+      "bytes": 98590
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image164.png",
+      "bytes": 121061
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image194.png",
+      "bytes": 190535
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image65.png",
+      "bytes": 55711
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image2.png",
+      "bytes": 139702
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image132.png",
+      "bytes": 36757
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image128.png",
+      "bytes": 61408
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image97.png",
+      "bytes": 162710
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image54.png",
+      "bytes": 104735
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image184.png",
+      "bytes": 72325
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image46.png",
+      "bytes": 77250
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image70.png",
+      "bytes": 85675
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image107.png",
+      "bytes": 57592
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image89.png",
+      "bytes": 48411
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image125.png",
+      "bytes": 135373
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image11.png",
+      "bytes": 271
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image168.png",
+      "bytes": 139194
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image174.png",
+      "bytes": 192394
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image64.png",
+      "bytes": 106406
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image21.png",
+      "bytes": 161894
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image9.png",
+      "bytes": 27677
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image190.png",
+      "bytes": 274589
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image178.png",
+      "bytes": 60449
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image60.png",
+      "bytes": 83373
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image135.png",
+      "bytes": 50157
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image69.png",
+      "bytes": 85505
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image26.png",
+      "bytes": 78772
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image74.png",
+      "bytes": 101261
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image110.png",
+      "bytes": 139656
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image80.png",
+      "bytes": 94167
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image31.png",
+      "bytes": 85211
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image119.png",
+      "bytes": 159316
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image141.png",
+      "bytes": 80275
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image32.png",
+      "bytes": 61821
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image146.png",
+      "bytes": 81122
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image189.png",
+      "bytes": 158603
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image15.png",
+      "bytes": 48251
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image58.png",
+      "bytes": 80483
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image103.png",
+      "bytes": 49444
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image91.png",
+      "bytes": 144041
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image129.png",
+      "bytes": 143300
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image42.png",
+      "bytes": 141343
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image85.png",
+      "bytes": 157390
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image5.png",
+      "bytes": 36121
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image68.png",
+      "bytes": 84553
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image195.png",
+      "bytes": 88398
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image152.png",
+      "bytes": 112463
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image25.png",
+      "bytes": 477717
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image1.png",
+      "bytes": 179919
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image114.png",
+      "bytes": 78533
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image157.png",
+      "bytes": 99060
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image36.png",
+      "bytes": 53266
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image19.png",
+      "bytes": 58838
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image96.png",
+      "bytes": 130022
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image120.png",
+      "bytes": 63074
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image163.png",
+      "bytes": 83455
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image180.png",
+      "bytes": 54824
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image53.png",
+      "bytes": 60156
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image10.png",
+      "bytes": 154211
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image79.png",
+      "bytes": 57219
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image71.png",
+      "bytes": 71067
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image63.png",
+      "bytes": 29376
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image8.png",
+      "bytes": 146633
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image177.png",
+      "bytes": 62578
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image55.png",
+      "bytes": 124213
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image20.png",
+      "bytes": 58145
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image47.png",
+      "bytes": 46954
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image98.png",
+      "bytes": 147899
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image134.png",
+      "bytes": 112055
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image126.png",
+      "bytes": 112196
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image169.png",
+      "bytes": 32460
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image43.png",
+      "bytes": 55750
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image165.png",
+      "bytes": 55397
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image130.png",
+      "bytes": 139337
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image122.png",
+      "bytes": 63794
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image173.png",
+      "bytes": 150399
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image86.png",
+      "bytes": 141997
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image39.png",
+      "bytes": 130370
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image118.png",
+      "bytes": 59517
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image142.png",
+      "bytes": 270941
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image185.png",
+      "bytes": 152910
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image106.png",
+      "bytes": 90121
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image149.png",
+      "bytes": 19519
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image27.png",
+      "bytes": 88792
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image75.png",
+      "bytes": 138118
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image154.png",
+      "bytes": 59667
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image111.png",
+      "bytes": 113084
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image24.png",
+      "bytes": 228670
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image67.png",
+      "bytes": 139304
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image59.png",
+      "bytes": 51609
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image137.png",
+      "bytes": 66538
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image162.png",
+      "bytes": 67619
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image200.png",
+      "bytes": 135165
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image170.png",
+      "bytes": 58438
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image4.png",
+      "bytes": 55078
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image153.png",
+      "bytes": 56566
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image196.png",
+      "bytes": 127429
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image16.png",
+      "bytes": 151218
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image90.png",
+      "bytes": 177783
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image35.png",
+      "bytes": 207092
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image52.png",
+      "bytes": 38814
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image181.png",
+      "bytes": 92191
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image82.png",
+      "bytes": 54977
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image95.png",
+      "bytes": 89781
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image78.png",
+      "bytes": 65373
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image158.png",
+      "bytes": 89460
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image188.png",
+      "bytes": 10602
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image102.png",
+      "bytes": 69043
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image145.png",
+      "bytes": 37565
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image115.png",
+      "bytes": 130899
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image62.png",
+      "bytes": 165181
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image176.png",
+      "bytes": 210251
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image133.png",
+      "bytes": 60426
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image192.png",
+      "bytes": 73418
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image28.png",
+      "bytes": 46659
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image117.png",
+      "bytes": 209845
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image72.png",
+      "bytes": 20135
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image109.png",
+      "bytes": 154637
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image182.png",
+      "bytes": 65628
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image143.png",
+      "bytes": 147556
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image38.png",
+      "bytes": 78628
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image100.png",
+      "bytes": 102636
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image105.png",
+      "bytes": 90657
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image56.png",
+      "bytes": 151794
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image186.png",
+      "bytes": 88971
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image148.png",
+      "bytes": 148456
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image99.png",
+      "bytes": 136008
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image13.png",
+      "bytes": 181380
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image123.png",
+      "bytes": 80601
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image166.png",
+      "bytes": 527658
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image172.png",
+      "bytes": 210894
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image44.png",
+      "bytes": 77691
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image87.png",
+      "bytes": 32956
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image7.png",
+      "bytes": 111533
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image197.png",
+      "bytes": 108766
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image3.png",
+      "bytes": 57363
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image171.png",
+      "bytes": 119356
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image138.png",
+      "bytes": 197033
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image198.png",
+      "bytes": 52429
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image155.png",
+      "bytes": 48007
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image201.png",
+      "bytes": 62044
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image112.png",
+      "bytes": 105774
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image17.png",
+      "bytes": 194876
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image161.png",
+      "bytes": 111457
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image94.png",
+      "bytes": 30316
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image34.png",
+      "bytes": 58468
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image77.png",
+      "bytes": 55995
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image51.png",
+      "bytes": 56383
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image187.png",
+      "bytes": 103724
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image144.png",
+      "bytes": 127281
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image127.png",
+      "bytes": 78683
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image101.png",
+      "bytes": 30797
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image49.png",
+      "bytes": 61636
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image40.png",
+      "bytes": 171280
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image83.png",
+      "bytes": 140078
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image150.png",
+      "bytes": 286927
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image23.png",
+      "bytes": 45592
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image66.png",
+      "bytes": 139583
+    },
+    {
+      "source": "codeEvolution-youtube.docx",
+      "file": "assets/source_extract/codeevolution_youtube/image193.png",
+      "bytes": 204389
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image124.png",
+      "bytes": 207097
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image29.png",
+      "bytes": 548740
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image37.png",
+      "bytes": 294550
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image159.png",
+      "bytes": 732082
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image108.png",
+      "bytes": 193775
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image45.png",
+      "bytes": 241383
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image175.png",
+      "bytes": 689936
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image183.png",
+      "bytes": 196170
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image116.png",
+      "bytes": 723120
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image140.png",
+      "bytes": 102176
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image73.png",
+      "bytes": 70090
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image81.png",
+      "bytes": 201462
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image30.png",
+      "bytes": 364969
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image160.png",
+      "bytes": 510303
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image179.png",
+      "bytes": 619556
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image6.png",
+      "bytes": 117002
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image61.png",
+      "bytes": 65987
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image136.png",
+      "bytes": 1291529
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image88.png",
+      "bytes": 400537
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image57.png",
+      "bytes": 210337
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image167.png",
+      "bytes": 724730
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image14.png",
+      "bytes": 94108
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image92.png",
+      "bytes": 86195
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image84.png",
+      "bytes": 569957
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image76.png",
+      "bytes": 68110
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image33.png",
+      "bytes": 129845
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image41.png",
+      "bytes": 124174
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image93.png",
+      "bytes": 386494
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image50.png",
+      "bytes": 260076
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image147.png",
+      "bytes": 54455
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image104.png",
+      "bytes": 480637
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image121.png",
+      "bytes": 212136
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image156.png",
+      "bytes": 380338
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image139.png",
+      "bytes": 1661456
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image113.png",
+      "bytes": 131478
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image48.png",
+      "bytes": 163218
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image18.png",
+      "bytes": 626755
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image151.png",
+      "bytes": 15226
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image22.png",
+      "bytes": 408472
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image164.png",
+      "bytes": 57976
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image65.png",
+      "bytes": 1326446
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image2.png",
+      "bytes": 175996
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image132.png",
+      "bytes": 112799
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image128.png",
+      "bytes": 244047
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image97.png",
+      "bytes": 16979
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image54.png",
+      "bytes": 156826
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image184.png",
+      "bytes": 460401
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image46.png",
+      "bytes": 543499
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image70.png",
+      "bytes": 1185561
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image107.png",
+      "bytes": 78503
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image125.png",
+      "bytes": 72453
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image89.png",
+      "bytes": 171192
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image11.png",
+      "bytes": 66334
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image168.png",
+      "bytes": 25935
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image131.png",
+      "bytes": 37318
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image174.png",
+      "bytes": 236945
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image64.png",
+      "bytes": 638713
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image21.png",
+      "bytes": 657646
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image9.png",
+      "bytes": 516484
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image178.png",
+      "bytes": 1266222
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image60.png",
+      "bytes": 45835
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image135.png",
+      "bytes": 171483
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image69.png",
+      "bytes": 768936
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image26.png",
+      "bytes": 238992
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image74.png",
+      "bytes": 567713
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image80.png",
+      "bytes": 130684
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image110.png",
+      "bytes": 157657
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image31.png",
+      "bytes": 538752
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image119.png",
+      "bytes": 273891
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image141.png",
+      "bytes": 633681
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image32.png",
+      "bytes": 119911
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image146.png",
+      "bytes": 736586
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image15.png",
+      "bytes": 195187
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image58.png",
+      "bytes": 759074
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image103.png",
+      "bytes": 299422
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image91.png",
+      "bytes": 176401
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image129.png",
+      "bytes": 628857
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image42.png",
+      "bytes": 128853
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image85.png",
+      "bytes": 91246
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image5.png",
+      "bytes": 35378
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image68.png",
+      "bytes": 57363
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image152.png",
+      "bytes": 79035
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image25.png",
+      "bytes": 116768
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image1.png",
+      "bytes": 88221
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image114.png",
+      "bytes": 33909
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image157.png",
+      "bytes": 63687
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image36.png",
+      "bytes": 764869
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image19.png",
+      "bytes": 127205
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image96.png",
+      "bytes": 217405
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image120.png",
+      "bytes": 385390
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image163.png",
+      "bytes": 83157
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image180.png",
+      "bytes": 86017
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image53.png",
+      "bytes": 493469
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image10.png",
+      "bytes": 409452
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image79.png",
+      "bytes": 108644
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image71.png",
+      "bytes": 98886
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image63.png",
+      "bytes": 90374
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image8.png",
+      "bytes": 38674
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image177.png",
+      "bytes": 104162
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image55.png",
+      "bytes": 104698
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image47.png",
+      "bytes": 188864
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image20.png",
+      "bytes": 176662
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image98.png",
+      "bytes": 139927
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image134.png",
+      "bytes": 96807
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image126.png",
+      "bytes": 579972
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image169.png",
+      "bytes": 135618
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image12.png",
+      "bytes": 170708
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image43.png",
+      "bytes": 178704
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image165.png",
+      "bytes": 85419
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image130.png",
+      "bytes": 556959
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image122.png",
+      "bytes": 216732
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image86.png",
+      "bytes": 133741
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image173.png",
+      "bytes": 122733
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image39.png",
+      "bytes": 111189
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image118.png",
+      "bytes": 2339252
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image142.png",
+      "bytes": 283731
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image106.png",
+      "bytes": 154542
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image149.png",
+      "bytes": 209560
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image27.png",
+      "bytes": 191551
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image75.png",
+      "bytes": 383315
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image154.png",
+      "bytes": 98978
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image111.png",
+      "bytes": 271129
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image24.png",
+      "bytes": 23975
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image67.png",
+      "bytes": 322609
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image59.png",
+      "bytes": 463552
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image162.png",
+      "bytes": 443856
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image137.png",
+      "bytes": 1962593
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image170.png",
+      "bytes": 450654
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image4.png",
+      "bytes": 612504
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image153.png",
+      "bytes": 452262
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image16.png",
+      "bytes": 59090
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image90.png",
+      "bytes": 234148
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image35.png",
+      "bytes": 73410
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image52.png",
+      "bytes": 660749
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image181.png",
+      "bytes": 610007
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image82.png",
+      "bytes": 62309
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image95.png",
+      "bytes": 496177
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image78.png",
+      "bytes": 335317
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image158.png",
+      "bytes": 292729
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image102.png",
+      "bytes": 150291
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image145.png",
+      "bytes": 607876
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image115.png",
+      "bytes": 993694
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image62.png",
+      "bytes": 334242
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image176.png",
+      "bytes": 739596
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image133.png",
+      "bytes": 554072
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image28.png",
+      "bytes": 637140
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image117.png",
+      "bytes": 331377
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image72.png",
+      "bytes": 765002
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image109.png",
+      "bytes": 106419
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image182.png",
+      "bytes": 160435
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image143.png",
+      "bytes": 240344
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image38.png",
+      "bytes": 1383567
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image100.png",
+      "bytes": 609415
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image105.png",
+      "bytes": 119545
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image56.png",
+      "bytes": 131911
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image148.png",
+      "bytes": 40996
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image99.png",
+      "bytes": 429842
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image13.png",
+      "bytes": 534711
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image123.png",
+      "bytes": 500252
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image172.png",
+      "bytes": 782099
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image166.png",
+      "bytes": 665041
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image44.png",
+      "bytes": 563677
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image87.png",
+      "bytes": 220191
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image7.png",
+      "bytes": 627093
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image3.png",
+      "bytes": 786987
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image171.png",
+      "bytes": 772148
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image138.png",
+      "bytes": 260310
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image155.png",
+      "bytes": 22451
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image112.png",
+      "bytes": 511776
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image17.png",
+      "bytes": 124496
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image161.png",
+      "bytes": 180543
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image34.png",
+      "bytes": 2306706
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image94.png",
+      "bytes": 555556
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image77.png",
+      "bytes": 139326
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image51.png",
+      "bytes": 170331
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image144.png",
+      "bytes": 152741
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image127.png",
+      "bytes": 84499
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image101.png",
+      "bytes": 142256
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image49.png",
+      "bytes": 275223
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image40.png",
+      "bytes": 298894
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image83.png",
+      "bytes": 348293
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image150.png",
+      "bytes": 278732
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image23.png",
+      "bytes": 22327
+    },
+    {
+      "source": "completeNodeDev.docx",
+      "file": "assets/source_extract/completenodedev/image66.png",
+      "bytes": 147911
+    }
+  ]
+}
