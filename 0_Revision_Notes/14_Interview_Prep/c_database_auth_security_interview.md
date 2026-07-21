@@ -1,59 +1,64 @@
 # Revision Notes: Database, Auth, and Security Interview Questions
 
-* This topic is a production backend concern, not just a syntax detail.
-* A senior Node.js engineer should understand the runtime behavior, the API contract, and the operational risks.
-* The practical goal is to build services that are correct, observable, secure, and easy to change.
-* Use small examples to learn the API, then connect the API to real request flows and failure modes.
-* Best practice: Answer with: definition, internals, tradeoff, production example, and debugging approach.
-* Best practice: Draw request flow and data ownership before picking technologies.
-* Best practice: Mention limits and how you would measure them.
-* Best practice: Practice explaining failures you have seen and how you would prevent them.
-* Avoid: Giving definitions without examples.
-* Avoid: Saying Node is single-threaded without explaining libuv, worker threads, and clustering.
-* Avoid: Designing for massive scale before solving correctness and data modeling.
-* Avoid: Ignoring security, observability, and deployment in backend designs.
+Use this as the quick final pass before interviews. For full answers, read `14_Interview_Prep/c_database_auth_security_interview.md`.
 
 ---
 
-# Cheat Sheet
+# Database
 
-| Concept | Practical meaning |
-| ------- | ----------------- |
-| JWT | Signed token, readable payload, not encrypted by default. |
-| bcrypt | Slow salted password hashing. |
-| Index | Data structure that makes specific queries faster. |
-| CORS | Browser cross-origin read control, not API authorization. |
-| Validation | Reject unsafe input before it reaches persistence. |
+* Choose SQL when relationships, constraints, joins, reporting, and transactions matter heavily.
+* Choose MongoDB when document-shaped data and access patterns fit embedding/flexible schema.
+* Indexes speed reads for specific query shapes but slow writes and use storage.
+* Compound index order matters; the leftmost prefix is important.
+* Cursor pagination is better than offset pagination for large changing datasets.
+* Use transactions only where multiple writes must commit or roll back together.
+* Avoid race conditions with database constraints, atomic updates, transactions, version fields, and idempotency keys.
+* Avoid N+1 queries with batching, joins, `$lookup`, preloading, or denormalization.
 
 ---
 
-# Interview Questions & Answers
+# Auth
 
-### 1. How would you explain Database, Auth, and Security Interview Questions in a real backend project?
+* Authentication asks who the user is.
+* Authorization asks what the user can do.
+* Passwords should be hashed with slow salted algorithms such as bcrypt, Argon2, or scrypt.
+* JWTs are usually signed and readable, not encrypted.
+* Access tokens should be short-lived.
+* Refresh tokens need strong storage, rotation, reuse detection, and revocation.
+* RBAC is role-based. ABAC uses attributes such as owner, tenant, region, or resource state.
+* Object-level authorization must be checked server-side for every sensitive object operation.
 
-Database, Auth, and Security Interview Questions should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+---
 
-### 2. What happens internally when Database, Auth, and Security Interview Questions is involved?
+# Security
 
-Senior interviews test mental models, tradeoffs, debugging clarity, and production judgment. The best answers connect syntax to runtime behavior and real incidents. System design answers should state assumptions, constraints, data model, APIs, scaling path, and failure modes.
+| Risk | Fix |
+| ---- | --- |
+| BOLA | Check ownership/tenant permissions per object. |
+| Mass assignment | Allow-list writable fields. |
+| Injection | Use parameterized queries and strict validation. |
+| XSS | Encode output, use CSP, avoid unsafe HTML injection. |
+| CSRF | SameSite cookies, CSRF tokens, origin checks where appropriate. |
+| SSRF | Allow-list outbound hosts and block private ranges. |
+| Secret leaks | Use secret manager/env injection and never log secrets. |
 
-### 3. What is a common production bug related to Database, Auth, and Security Interview Questions?
+---
 
-Giving definitions without examples.
+# Node-Specific Reliability
 
-### 4. How would you debug an issue in Database, Auth, and Security Interview Questions?
-
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
-
-### 5. What should a senior engineer check in code review?
-
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+* Reuse one database pool/client per process.
+* Do not create database connections per request.
+* Do not store durable session state in memory when using multiple processes or containers.
+* Background jobs must be idempotent and retryable.
+* Use dead-letter queues for repeated job failures.
+* Use the outbox pattern when a database write and event publish must stay consistent.
 
 ---
 
 # Quick Practice
 
-1. Explain Database, Auth, and Security Interview Questions in two minutes.
-2. Write a tiny code example from memory.
-3. Name one security, performance, or reliability risk.
-4. Describe how you would debug a related production issue.
+1. Explain JWT vs session.
+2. Explain access token vs refresh token.
+3. Explain SQL vs MongoDB for orders.
+4. Design an index for a filtered, sorted list endpoint.
+5. Explain how to stop one user from reading another user's record.

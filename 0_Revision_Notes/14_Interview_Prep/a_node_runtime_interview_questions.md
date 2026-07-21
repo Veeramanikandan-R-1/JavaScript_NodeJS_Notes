@@ -1,59 +1,65 @@
 # Revision Notes: Node Runtime Interview Questions
 
-* This topic is a production backend concern, not just a syntax detail.
-* A senior Node.js engineer should understand the runtime behavior, the API contract, and the operational risks.
-* The practical goal is to build services that are correct, observable, secure, and easy to change.
-* Use small examples to learn the API, then connect the API to real request flows and failure modes.
-* Best practice: Answer with: definition, internals, tradeoff, production example, and debugging approach.
-* Best practice: Draw request flow and data ownership before picking technologies.
-* Best practice: Mention limits and how you would measure them.
-* Best practice: Practice explaining failures you have seen and how you would prevent them.
-* Avoid: Giving definitions without examples.
-* Avoid: Saying Node is single-threaded without explaining libuv, worker threads, and clustering.
-* Avoid: Designing for massive scale before solving correctness and data modeling.
-* Avoid: Ignoring security, observability, and deployment in backend designs.
+Use this as the quick final pass before interviews. For full answers, read `14_Interview_Prep/a_node_runtime_interview_questions.md`.
 
 ---
 
-# Cheat Sheet
+# Must Remember
 
-| Concept | Practical meaning |
-| ------- | ----------------- |
-| Single thread | JavaScript runs on one main thread per process. |
-| Non-blocking I/O | I/O starts, Node continues handling other work, callback resumes later. |
-| Thread pool | Native background workers for selected operations. |
-| Cluster | Multiple processes to use multiple CPU cores. |
-| Worker threads | Parallel JavaScript execution for CPU-heavy work. |
+* JavaScript runs on one main thread per Node process, but Node handles concurrency using the event loop, OS async I/O, and libuv's thread pool.
+* Node is best for I/O-heavy services. CPU-heavy JavaScript can block all requests in that process.
+* Event loop phases commonly discussed: timers, pending callbacks, poll, check, close callbacks.
+* Microtasks run between phases. `process.nextTick` has special priority and can starve the loop if abused.
+* The libuv thread pool handles selected native work such as many `fs` calls, `dns.lookup`, zlib, and crypto.
+* Streams need backpressure handling. Prefer `pipeline` for stream chains.
+* Use cluster/multiple processes for server concurrency across CPU cores.
+* Use worker threads for CPU-heavy JavaScript work.
+* Use `AbortController` and timeouts for outbound calls.
+* Use `AsyncLocalStorage` for request context such as request ID or tenant ID.
+* On uncaught fatal errors, log, stop accepting new work, drain briefly, close resources, and restart.
 
 ---
 
-# Interview Questions & Answers
+# Fast Interview Answers
 
-### 1. How would you explain Node Runtime Interview Questions in a real backend project?
+### Is Node single-threaded?
 
-Node Runtime Interview Questions should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+JavaScript execution is single-threaded per process, but Node itself uses the event loop, OS async I/O, and a libuv thread pool. It scales well for I/O-heavy work, but CPU-heavy JS can block the event loop.
 
-### 2. What happens internally when Node Runtime Interview Questions is involved?
+### `await` blocks or not?
 
-Senior interviews test mental models, tradeoffs, debugging clarity, and production judgment. The best answers connect syntax to runtime behavior and real incidents. System design answers should state assumptions, constraints, data model, APIs, scaling path, and failure modes.
+`await` pauses the current async function, not the whole process. The event loop can handle other work while the awaited I/O is pending. If the awaited function runs CPU-heavy synchronous code, that code still blocks.
 
-### 3. What is a common production bug related to Node Runtime Interview Questions?
+### Cluster vs worker threads?
 
-Giving definitions without examples.
+Cluster means multiple processes, each with its own memory and event loop, usually for scaling HTTP servers. Worker threads run JavaScript in parallel inside one process, usually for CPU-heavy tasks.
 
-### 4. How would you debug an issue in Node Runtime Interview Questions?
+### How to debug event loop lag?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Measure event loop delay, CPU, memory, p95/p99 latency, slow routes, database timings, and dependency latency. Then inspect CPU profiles, heap snapshots, synchronous calls, large JSON work, regex backtracking, and unbounded loops.
 
-### 5. What should a senior engineer check in code review?
+### What is graceful shutdown?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+On `SIGTERM` or `SIGINT`, stop accepting new requests, let in-flight work finish within a timeout, stop queue consumers, close DB/cache connections, and exit.
+
+---
+
+# Traps
+
+| Trap | Correct answer |
+| ---- | -------------- |
+| `setTimeout(fn, 0)` runs immediately. | It runs in a future timers phase when eligible. |
+| Increasing `UV_THREADPOOL_SIZE` fixes all performance. | It only helps thread-pool-bound work. |
+| JWT is encrypted. | JWT is usually signed and readable. |
+| CORS is API security. | CORS is browser read control, not authorization. |
+| In-memory sessions are fine everywhere. | They break with multiple processes, restarts, and horizontal scaling. |
 
 ---
 
 # Quick Practice
 
-1. Explain Node Runtime Interview Questions in two minutes.
-2. Write a tiny code example from memory.
-3. Name one security, performance, or reliability risk.
-4. Describe how you would debug a related production issue.
+1. Explain event loop and microtasks in two minutes.
+2. Explain why `process.nextTick` can be dangerous.
+3. Give one example of thread-pool saturation.
+4. Explain stream backpressure.
+5. Explain how you would handle a slow third-party API.

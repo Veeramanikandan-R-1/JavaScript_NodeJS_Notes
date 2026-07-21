@@ -146,6 +146,11 @@ Extracted original images are stored in `assets/source_extract` and browsable fr
 * [Express API Interview Questions](./14_Interview_Prep/b_express_api_interview_questions.md)
 * [Database, Auth, and Security Interview Questions](./14_Interview_Prep/c_database_auth_security_interview.md)
 * [Backend System Design Interview Notes](./14_Interview_Prep/d_backend_system_design_interview.md)
+* [3-Year Node.js Interview Master Checklist](./14_Interview_Prep/e_three_year_nodejs_interview_master_checklist.md)
+
+## Interview Gap Audit
+
+* [Node.js 3-Year Interview Gap Audit](./0_Notes/nodejs_3_year_interview_gap_audit.md)
 
 ## 15_Capstone_Projects
 

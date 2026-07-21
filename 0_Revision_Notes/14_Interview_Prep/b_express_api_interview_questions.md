@@ -1,59 +1,78 @@
 # Revision Notes: Express API Interview Questions
 
-* This topic is a production backend concern, not just a syntax detail.
-* A senior Node.js engineer should understand the runtime behavior, the API contract, and the operational risks.
-* The practical goal is to build services that are correct, observable, secure, and easy to change.
-* Use small examples to learn the API, then connect the API to real request flows and failure modes.
-* Best practice: Answer with: definition, internals, tradeoff, production example, and debugging approach.
-* Best practice: Draw request flow and data ownership before picking technologies.
-* Best practice: Mention limits and how you would measure them.
-* Best practice: Practice explaining failures you have seen and how you would prevent them.
-* Avoid: Giving definitions without examples.
-* Avoid: Saying Node is single-threaded without explaining libuv, worker threads, and clustering.
-* Avoid: Designing for massive scale before solving correctness and data modeling.
-* Avoid: Ignoring security, observability, and deployment in backend designs.
+Use this as the quick final pass before interviews. For full answers, read `14_Interview_Prep/b_express_api_interview_questions.md`.
 
 ---
 
-# Cheat Sheet
+# Must Remember
 
-| Concept | Practical meaning |
-| ------- | ----------------- |
-| Middleware order | First matching middleware runs first. |
-| next | Moves request to the next middleware or error handler. |
-| Error handler | Central place to map errors to responses. |
-| 401 vs 403 | Unauthenticated versus authenticated but forbidden. |
-| Thin controller | Route handler that delegates business logic. |
+* Middleware runs in registration order.
+* Every middleware path must send a response, call `next()`, or call `next(err)`.
+* Keep controllers thin: parse input, call service, map result to HTTP.
+* Centralize validation, auth, and error response formatting.
+* Express 5 passes rejected promises from async handlers to error middleware automatically. Express 4 often needs wrappers or manual `try/catch`.
+* Body size limits protect memory and latency.
+* CORS is not authentication.
+* `trust proxy` affects client IP, HTTPS detection, secure cookies, logging, and rate limiting.
+* Idempotency keys are important for retries around creation/payment/order flows.
+* Cursor pagination is usually better than offset pagination for large changing datasets.
 
 ---
 
-# Interview Questions & Answers
+# Status Codes
 
-### 1. How would you explain Express API Interview Questions in a real backend project?
+| Status | Use |
+| ------ | --- |
+| 400 | Bad request syntax or malformed input. |
+| 401 | Not authenticated. |
+| 403 | Authenticated but not allowed. |
+| 404 | Resource not found or hidden. |
+| 409 | Conflict with current state. |
+| 422 | Semantically invalid input, if your API uses this convention. |
+| 429 | Too many requests. |
+| 500 | Unexpected server error. |
 
-Express API Interview Questions should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+---
 
-### 2. What happens internally when Express API Interview Questions is involved?
+# Strong API Structure
 
-Senior interviews test mental models, tradeoffs, debugging clarity, and production judgment. The best answers connect syntax to runtime behavior and real incidents. System design answers should state assumptions, constraints, data model, APIs, scaling path, and failure modes.
+```text
+request -> request id/logging -> body parser -> auth -> validation
+-> controller -> service -> repository -> database -> response
+```
 
-### 3. What is a common production bug related to Express API Interview Questions?
+Recommended files:
 
-Giving definitions without examples.
+```text
+src/app.js
+src/server.js
+src/modules/users/users.routes.js
+src/modules/users/users.controller.js
+src/modules/users/users.service.js
+src/modules/users/users.repository.js
+src/shared/errors.js
+src/shared/config.js
+src/shared/logger.js
+```
 
-### 4. How would you debug an issue in Express API Interview Questions?
+---
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+# Traps
 
-### 5. What should a senior engineer check in code review?
-
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+| Trap | Correct answer |
+| ---- | -------------- |
+| No response and no `next()` | Request hangs. |
+| Raw `req.body` update | Mass assignment risk. |
+| Generic 500 for validation | Use a client error status and stable error shape. |
+| Rate limiting behind proxy without config | Can punish all users or be bypassed. |
+| Raw error messages to clients | Can leak internals. |
 
 ---
 
 # Quick Practice
 
-1. Explain Express API Interview Questions in two minutes.
-2. Write a tiny code example from memory.
-3. Name one security, performance, or reliability risk.
-4. Describe how you would debug a related production issue.
+1. Explain middleware order.
+2. Design a centralized error response.
+3. Explain 401 vs 403.
+4. Explain idempotency keys.
+5. Explain what changes behind a reverse proxy.

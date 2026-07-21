@@ -1,59 +1,81 @@
 # Revision Notes: Backend System Design Interview Notes
 
-* This topic is a production backend concern, not just a syntax detail.
-* A senior Node.js engineer should understand the runtime behavior, the API contract, and the operational risks.
-* The practical goal is to build services that are correct, observable, secure, and easy to change.
-* Use small examples to learn the API, then connect the API to real request flows and failure modes.
-* Best practice: Answer with: definition, internals, tradeoff, production example, and debugging approach.
-* Best practice: Draw request flow and data ownership before picking technologies.
-* Best practice: Mention limits and how you would measure them.
-* Best practice: Practice explaining failures you have seen and how you would prevent them.
-* Avoid: Giving definitions without examples.
-* Avoid: Saying Node is single-threaded without explaining libuv, worker threads, and clustering.
-* Avoid: Designing for massive scale before solving correctness and data modeling.
-* Avoid: Ignoring security, observability, and deployment in backend designs.
+Use this as the quick final pass before interviews. For full answers, read `14_Interview_Prep/d_backend_system_design_interview.md`.
 
 ---
 
-# Cheat Sheet
+# Answer Framework
 
-| Concept | Practical meaning |
-| ------- | ----------------- |
-| Requirement | What users and business need the system to do. |
-| Constraint | Latency, scale, consistency, cost, compliance, or timeline limit. |
-| API contract | Endpoints, payloads, errors, and versioning. |
-| Data model | Entities, relationships, indexes, and lifecycle. |
-| Operational plan | Deploy, observe, scale, and recover. |
+```text
+requirements -> APIs -> data model -> core flows -> consistency
+security -> scale -> caching/queues -> observability -> deployment/failure modes
+```
+
+Start simple and correct. Add scale only where the requirement demands it.
 
 ---
 
-# Interview Questions & Answers
+# Must Cover
 
-### 1. How would you explain Backend System Design Interview Notes in a real backend project?
+* Functional requirements.
+* Non-functional requirements: latency, scale, consistency, security, cost.
+* REST endpoints and response/error shape.
+* Data model and indexes.
+* Authentication and object-level authorization.
+* Pagination for lists.
+* Idempotency for retries and creation flows.
+* Transactions or atomic operations for consistency.
+* Queue for slow/retryable work.
+* Cache strategy with TTL and invalidation.
+* Observability: logs, metrics, traces, alerts.
+* Deployment: health, readiness, graceful shutdown, rollback.
 
-Backend System Design Interview Notes should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+---
 
-### 2. What happens internally when Backend System Design Interview Notes is involved?
+# Scaling Node Services
 
-Senior interviews test mental models, tradeoffs, debugging clarity, and production judgment. The best answers connect syntax to runtime behavior and real incidents. System design answers should state assumptions, constraints, data model, APIs, scaling path, and failure modes.
+1. Keep the service stateless.
+2. Add indexes and pagination.
+3. Measure slow routes and event loop delay.
+4. Run multiple processes/containers.
+5. Move CPU-heavy work to workers or jobs.
+6. Add cache for measured hot reads.
+7. Use queues for slow/retryable workflows.
+8. Split services only when team or scale boundaries justify it.
 
-### 3. What is a common production bug related to Backend System Design Interview Notes?
+---
 
-Giving definitions without examples.
+# Reliability Patterns
 
-### 4. How would you debug an issue in Backend System Design Interview Notes?
+| Need | Pattern |
+| ---- | ------- |
+| Prevent duplicate user/order | Unique index or idempotency key |
+| Multiple writes together | Transaction |
+| Publish event after DB write | Outbox pattern |
+| Retry work safely | Queue with idempotent handler |
+| Avoid stale overwrite | Optimistic locking/version |
+| Handle provider failure | Timeout, retry with backoff, circuit breaker |
+| Debug production issue | Request IDs, metrics, traces, logs |
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+---
 
-### 5. What should a senior engineer check in code review?
+# Traps
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+| Trap | Better approach |
+| ---- | --------------- |
+| Jump to microservices | Start with modular monolith unless needed. |
+| Ignore data model | Data model drives correctness and performance. |
+| Cache everything | Cache measured hot paths with invalidation rules. |
+| No failure mode | Explain what happens when each dependency fails. |
+| No auth design | Include object-level authorization. |
+| No operations plan | Include health checks, shutdown, rollback, observability. |
 
 ---
 
 # Quick Practice
 
-1. Explain Backend System Design Interview Notes in two minutes.
-2. Write a tiny code example from memory.
-3. Name one security, performance, or reliability risk.
-4. Describe how you would debug a related production issue.
+1. Design task manager API.
+2. Design file upload and image processing.
+3. Design realtime chat scaling.
+4. Design notification service.
+5. Design payment order flow with idempotency.
