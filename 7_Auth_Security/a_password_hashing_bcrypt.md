@@ -125,25 +125,25 @@ const isMatch = await bcrypt.compare(password, user.password);
 
 # Interview Questions with Answers
 
-### 1. How would you explain Password Hashing with bcrypt in a real backend project?
+### 1. Why is bcrypt appropriate for password storage while a fast hash like SHA-256 is not?
 
-Password Hashing with bcrypt should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Passwords need a slow, salted, adaptive hash so offline guessing is expensive after a database leak. SHA-256 is built for speed, which helps attackers test billions of guesses quickly.
 
-### 2. What happens internally when Password Hashing with bcrypt is involved?
+### 2. How do you choose a bcrypt cost factor?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+Benchmark it on production-like hardware and pick the highest cost that keeps signup and login latency acceptable under expected load. Revisit the cost over time because hardware changes.
 
-### 3. What is a common production bug related to Password Hashing with bcrypt?
+### 3. What should happen during login when the password is correct but the stored hash uses an old cost?
 
-Putting sensitive data into JWT payloads.
+Authenticate the user, then rehash the password with the current cost and store the upgraded hash. This upgrades security gradually without forcing every user through a password reset.
 
-### 4. How would you debug an issue in Password Hashing with bcrypt?
+### 4. How do you prevent user enumeration in a login endpoint?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Return the same generic failure message and similar timing for unknown email and wrong password. Logging can keep internal detail, but the client should not learn whether the account exists.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is the role of a pepper, and what risk comes with it?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+A pepper is an application-level secret added before hashing so the database alone is not enough for offline cracking. If used, it must live in secret management and rotation needs careful planning because losing it can invalidate password verification.
 
 ---
 

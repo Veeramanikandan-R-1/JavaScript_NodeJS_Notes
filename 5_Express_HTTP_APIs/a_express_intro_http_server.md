@@ -130,25 +130,25 @@ app.listen(3000, () => console.log("listening on 3000"));
 
 # Interview Questions with Answers
 
-### 1. How would you explain Express Introduction and HTTP Server in a real backend project?
+### 1. In production, what does Express actually add on top of Node's HTTP server?
 
-Express Introduction and HTTP Server should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Express gives a middleware stack, routing, request helpers, response helpers, and error flow. It does not remove HTTP concerns like streaming, timeouts, body limits, connection handling, or graceful shutdown.
 
-### 2. What happens internally when Express Introduction and HTTP Server is involved?
+### 2. How would you structure a small Express API so it does not turn into route-handler spaghetti?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+Keep handlers thin: parse request data, call a service, and map the result to HTTP. Put business rules in services, data access behind repositories or models, and cross-cutting behavior like auth and validation in middleware.
 
-### 3. What is a common production bug related to Express Introduction and HTTP Server?
+### 3. What is the bug when a handler sends `res.json()` and then continues executing?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+The code may perform extra writes, call `next()`, or attempt a second response after headers are already sent. I usually return immediately after sending or structure the handler so response paths are explicit.
 
-### 4. How would you debug an issue in Express Introduction and HTTP Server?
+### 4. What production settings do you check before exposing an Express server publicly?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Body size limits, proxy trust, timeouts, CORS policy, security headers, error handling, logging, health checks, and graceful shutdown. Defaults that are fine in demos are often weak boundaries in production.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you test that an Express endpoint behaves correctly as HTTP, not just as a function?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Use an HTTP-level test tool such as Supertest to assert status code, response body, headers, and error shape. Unit tests for services are useful, but they do not prove the route is wired correctly.
 
 ---
 

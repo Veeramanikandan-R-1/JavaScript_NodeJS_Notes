@@ -123,25 +123,25 @@ async function loadUserWithTasks(userRepo, taskRepo, userId) {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Callbacks, Promises, and async-await in a real backend project?
+### 1. What bug do you look for first when reviewing `async` route handlers?
 
-Callbacks, Promises, and async-await should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I look for unhandled rejections, missing `await`, swallowed errors, and responses sent before async work finishes. In Express-style code, rejected promises must reach the error middleware.
 
-### 2. What happens internally when Callbacks, Promises, and async-await is involved?
+### 2. Why is `await` inside a loop sometimes correct and sometimes a performance problem?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+It is correct when each operation depends on the previous result or when you intentionally limit pressure. It is wasteful when independent I/O could run concurrently with `Promise.all` or a bounded concurrency helper.
 
-### 3. What is a common production bug related to Callbacks, Promises, and async-await?
+### 3. How do you convert callback APIs safely without changing behavior?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+Use promise-native APIs when available or `util.promisify` for Node-style callbacks. Preserve error-first semantics, `this` binding where needed, cancellation behavior, and resource cleanup.
 
-### 4. How would you debug an issue in Callbacks, Promises, and async-await?
+### 4. What is the difference between returning a promise and awaiting it inside a `try/catch`?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Returning passes the promise to the caller, so the caller must handle rejection. Awaiting inside `try/catch` lets the current function add context, translate errors, or perform local cleanup before rethrowing.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you prevent partial success bugs across multiple awaited operations?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+Define whether the operation needs a transaction, idempotency key, compensating action, or retry strategy. Async syntax does not solve consistency; it only makes sequencing easier to read.
 
 ---
 

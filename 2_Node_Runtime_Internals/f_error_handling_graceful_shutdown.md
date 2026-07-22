@@ -123,25 +123,25 @@ app.use((err, req, res, next) => {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Advanced Error Handling and Graceful Shutdown in a real backend project?
+### 1. How do you decide whether an error should return 400, 401, 404, 409, or 500?
 
-Advanced Error Handling and Graceful Shutdown should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Classify whether the client sent invalid input, lacks authentication, requested a missing resource, violated a state conflict, or hit an unexpected server failure. The response should be stable for clients and detailed enough in logs for operators.
 
-### 2. What happens internally when Advanced Error Handling and Graceful Shutdown is involved?
+### 2. What is your policy for `uncaughtException` and `unhandledRejection`?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+Treat them as serious programming or lifecycle failures: log with context, start graceful shutdown if possible, and let the process restart. Do not pretend the process is definitely safe after unknown state corruption.
 
-### 3. What is a common production bug related to Advanced Error Handling and Graceful Shutdown?
+### 3. What should graceful shutdown do for an HTTP server?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+Stop accepting new connections, finish active requests within a timeout, close keep-alive sockets when appropriate, release database and queue resources, and exit with a meaningful status. The timeout prevents endless draining.
 
-### 4. How would you debug an issue in Advanced Error Handling and Graceful Shutdown?
+### 4. Why is wrapping every error as `Error: Something went wrong` harmful?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It destroys diagnostic information and makes alerts unactionable. Preserve the original error with `cause`, attach safe context, and map internal errors to clean client responses at the boundary.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you test shutdown behavior without waiting for a real deployment failure?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+Write integration tests or local scripts that send `SIGTERM`, hold a request open, verify readiness changes, and confirm resources close before timeout. Shutdown is production behavior and deserves repeatable testing.
 
 ---
 

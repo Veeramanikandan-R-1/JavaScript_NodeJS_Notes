@@ -121,25 +121,25 @@ npm audit fix
 
 # Interview Questions with Answers
 
-### 1. How would you explain npm, package.json, and SemVer in a real backend project?
+### 1. What is the practical difference between `dependencies` and `devDependencies` in a Node.js backend?
 
-npm, package.json, and SemVer should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+`dependencies` are needed to run the service; `devDependencies` support development, testing, linting, or build steps. The distinction matters for production installs, image size, attack surface, and startup failures.
 
-### 2. What happens internally when npm, package.json, and SemVer is involved?
+### 2. Why is committing `package-lock.json` important for backend services?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+The lockfile records the resolved dependency tree so installs are repeatable across laptops, CI, and production. Without it, a transitive update can change behavior without a code change.
 
-### 3. What is a common production bug related to npm, package.json, and SemVer?
+### 3. What risk does the caret range `^1.2.3` introduce?
 
-Learning only framework syntax and skipping runtime behavior.
+It allows compatible minor and patch updates under SemVer, but packages can still ship regressions or accidental breaking changes. Lockfiles, review, automated tests, and dependency update discipline reduce that risk.
 
-### 4. How would you debug an issue in npm, package.json, and SemVer?
+### 4. A package works locally but crashes in production with `MODULE_NOT_FOUND`. What do you check?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I check whether it is incorrectly listed as a dev dependency, whether production install omitted it, whether the lockfile was used, and whether the runtime path or module type changed. I also inspect the container or deployment artifact.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you evaluate adding a new npm package to a production backend?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I look at maintenance, transitive dependencies, security history, license, API stability, bundle or install cost, and whether native builds are involved. A small helper package can still become a production liability.
 
 ---
 

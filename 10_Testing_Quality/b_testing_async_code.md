@@ -119,25 +119,25 @@ test("rejects invalid token", async () => {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Testing Asynchronous Code in a real backend project?
+### 1. What is the most common mistake when testing async code in Jest?
 
-Testing Asynchronous Code should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Forgetting to return or await the promise. The test can finish before the assertion runs, producing false positives or unhandled rejections later. I want every async test to either `await` the operation, return the promise, or use `done` only for callback-style APIs where promises are not available.
 
-### 2. What happens internally when Testing Asynchronous Code is involved?
+### 2. How do you test that an async function rejects with the right error?
 
-A good backend test suite checks pure functions, services, HTTP behavior, database integration, and critical production flows. Jest runs test files in isolated workers; async tests must return or await promises. Supertest drives Express apps without requiring a real network port.
+I would use `await expect(fn()).rejects.toThrow(...)` or assert a structured error shape if the service returns domain errors. Wrapping the call in a plain `try/catch` is fine too, but the test must fail if no rejection happens.
 
-### 3. What is a common production bug related to Testing Asynchronous Code?
+### 3. How do timers make async tests flaky?
 
-Mocking so much that the test no longer proves production behavior.
+Real timers depend on machine speed, event-loop scheduling, and CI load. I use fake timers for deterministic timeout, debounce, retry, and backoff logic, then advance time explicitly. For code that mixes timers and promises, I make sure queued microtasks are flushed before assertions.
 
-### 4. How would you debug an issue in Testing Asynchronous Code?
+### 4. How would you test retry logic without making the test slow?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would inject the delay function or use fake timers, make the dependency fail a known number of times, and assert the number of attempts plus final result. The test should verify backoff behavior without actually sleeping for seconds.
 
-### 5. What should a senior engineer check in code review?
+### 5. What does an unhandled rejection in a passing test suite tell you?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+It usually means some async work escaped the test's lifecycle. I would look for missing awaits, background tasks not stopped in teardown, mocked callbacks throwing outside the test, or server/database handles left open. A passing assertion is not enough if the process reports async errors afterward.
 
 ---
 

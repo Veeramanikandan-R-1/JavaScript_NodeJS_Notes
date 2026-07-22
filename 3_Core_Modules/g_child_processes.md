@@ -122,25 +122,25 @@ child.on("exit", (code) => console.log("child exited", code));
 
 # Interview Questions with Answers
 
-### 1. How would you explain child_process Module in a real backend project?
+### 1. When do you choose `spawn()` over `exec()`?
 
-child_process Module should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use `spawn()` for long-running commands or large output because it streams stdio. Use `exec()` only for simple shell commands with small bounded output and no untrusted input.
 
-### 2. What happens internally when child_process Module is involved?
+### 2. Why is shelling out with user input dangerous?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+If user input reaches a shell command, it can become command injection. Prefer `execFile()` or `spawn()` with an argument array, validate allowed values, and avoid `shell: true`.
 
-### 3. What is a common production bug related to child_process Module?
+### 3. What is the `maxBuffer` problem with `exec()`?
 
-Building paths with string concatenation instead of the path module.
+`exec()` buffers stdout and stderr in memory and fails when output exceeds the limit. For commands that may produce large output, stream with `spawn()` and enforce your own limits.
 
-### 4. How would you debug an issue in child_process Module?
+### 4. What do you need to clean up when a request starts a child process but the client disconnects?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Cancel or kill the child, close stdio, clear timers, and remove listeners. Otherwise abandoned processes keep consuming CPU, memory, file descriptors, or locks.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you report child process failure cleanly?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+Capture exit code, signal, stderr snippets, timeout status, and command identity without leaking secrets. Treat non-zero exits as expected operational failures, not mysterious application crashes.
 
 ---
 

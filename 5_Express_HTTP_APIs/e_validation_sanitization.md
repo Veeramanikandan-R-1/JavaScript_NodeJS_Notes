@@ -124,25 +124,25 @@ if (!isValid) {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Validation and Sanitization in a real backend project?
+### 1. Where should request validation happen in an Express API?
 
-Validation and Sanitization should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Validate at the boundary before business logic runs, usually with a schema attached to the route or middleware. The service can still enforce domain invariants, but it should receive already-shaped input.
 
-### 2. What happens internally when Validation and Sanitization is involved?
+### 2. What is the difference between validation and sanitization?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+Validation decides whether input is acceptable. Sanitization transforms input, such as trimming strings or normalizing email case, and should be explicit because silent changes can surprise clients.
 
-### 3. What is a common production bug related to Validation and Sanitization?
+### 3. How do you prevent mass-assignment bugs in a JSON API?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+Do not pass `req.body` directly into database updates. Pick allowed fields from a validated schema so clients cannot set internal fields like `role`, `isAdmin`, `ownerId`, or account state.
 
-### 4. How would you debug an issue in Validation and Sanitization?
+### 4. How would you report validation errors to frontend or API clients?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Return a `400` or `422` with a stable error code and field-level messages. Keep the shape consistent so clients can attach errors to form fields without parsing free-form text.
 
-### 5. What should a senior engineer check in code review?
+### 5. Why is database validation alone not enough for an HTTP API?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Database validation protects storage, but it often produces late, inconsistent, or overly technical errors. API boundary validation gives better client feedback and prevents unnecessary business logic or database work.
 
 ---
 

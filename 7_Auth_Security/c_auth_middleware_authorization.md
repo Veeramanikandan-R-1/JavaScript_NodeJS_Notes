@@ -127,25 +127,25 @@ async function auth(req, res, next) {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Auth Middleware and Authorization in a real backend project?
+### 1. What is the difference between authentication and authorization in an Express API?
 
-Auth Middleware and Authorization should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Authentication answers who the caller is. Authorization answers whether that caller can perform this action on this resource, and it usually needs resource context such as owner, tenant, role, or scope.
 
-### 2. What happens internally when Auth Middleware and Authorization is involved?
+### 2. Where should authorization checks live?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+Do coarse checks in middleware when route-level requirements are simple, then enforce resource-specific rules in the service or policy layer. Do not rely only on frontend hiding or route naming conventions.
 
-### 3. What is a common production bug related to Auth Middleware and Authorization?
+### 3. A user can access `/projects/:id` from another tenant by guessing an id. What went wrong?
 
-Putting sensitive data into JWT payloads.
+The query likely checked only `_id` and forgot tenant or ownership constraints. In multi-tenant systems, authorization should be reflected in the data lookup, such as `{ _id, tenantId }`, not just checked afterward.
 
-### 4. How would you debug an issue in Auth Middleware and Authorization?
+### 4. How do you pass authenticated user data through the request safely?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Attach a small, verified principal object containing ids, tenant, scopes, and session metadata. Avoid attaching the whole database user document because it may be stale, oversized, or accidentally exposed.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you test authorization beyond the happy path?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+Write tests for unauthenticated requests, wrong role, wrong tenant, inactive account, and resource ownership boundaries. The most important tests prove that a valid user cannot access someone else's data.
 
 ---
 

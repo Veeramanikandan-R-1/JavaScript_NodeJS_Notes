@@ -124,25 +124,25 @@ throw new HttpError(403, "You cannot update this task");
 
 # Interview Questions with Answers
 
-### 1. How would you explain Status Codes and API Error Design in a real backend project?
+### 1. How do you decide between `400`, `401`, `403`, `404`, and `409` in an API?
 
-Status Codes and API Error Design should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+`400` is malformed or invalid input, `401` means authentication is missing or invalid, `403` means the user is known but not allowed, `404` means the resource is not visible or does not exist, and `409` means the request conflicts with current state.
 
-### 2. What happens internally when Status Codes and API Error Design is involved?
+### 2. What should a good API error response contain?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+It should include a stable error code, a human-readable message, and field-level details when validation fails. It should not leak stack traces, SQL or Mongo internals, secret values, or authorization clues.
 
-### 3. What is a common production bug related to Status Codes and API Error Design?
+### 3. When would you return `202 Accepted` instead of `200 OK` or `201 Created`?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+Use `202` when the request was accepted but work continues asynchronously, such as queueing a report export. The response should give the client a job id or status URL rather than pretending the work is complete.
 
-### 4. How would you debug an issue in Status Codes and API Error Design?
+### 4. How do you keep error handling consistent across many Express routes?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Throw or return known error types from services and centralize HTTP mapping in one error middleware. That prevents each route from inventing its own status codes and response shape.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is wrong with returning `200` for every API response and putting success or failure inside the body?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Clients, proxies, observability tools, retries, and caches all understand HTTP status codes. Hiding failures inside a `200` response makes integrations harder to reason about and often breaks alerting.
 
 ---
 

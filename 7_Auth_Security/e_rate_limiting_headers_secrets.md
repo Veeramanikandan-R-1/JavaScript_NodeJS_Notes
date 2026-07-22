@@ -124,25 +124,25 @@ app.use(rateLimit({
 
 # Interview Questions with Answers
 
-### 1. How would you explain Rate Limiting, Security Headers, and Secrets in a real backend project?
+### 1. How would you rate-limit login without locking out an entire office behind one IP?
 
-Rate Limiting, Security Headers, and Secrets should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use layered keys such as IP, account identifier, and device/session signals, with stricter limits on repeated failures. Keep responses generic and add monitoring so attackers cannot use the limiter to easily deny service to real users.
 
-### 2. What happens internally when Rate Limiting, Security Headers, and Secrets is involved?
+### 2. What security headers do you expect on a typical Express API?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+At minimum I look for headers managed by Helmet, including sensible defaults around content sniffing, frame embedding, referrer policy, and HSTS when using HTTPS. CSP matters more for pages that render browser-executed content.
 
-### 3. What is a common production bug related to Rate Limiting, Security Headers, and Secrets?
+### 3. How should secrets be handled across local development, CI, and production?
 
-Putting sensitive data into JWT payloads.
+Local can use uncommitted `.env` files, CI should use protected secret variables, and production should use a secret manager or platform secret store. Logs and error reports must redact secret values.
 
-### 4. How would you debug an issue in Rate Limiting, Security Headers, and Secrets?
+### 4. What makes distributed rate limiting harder than in-memory rate limiting?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Multiple app instances need a shared counter, usually Redis or a gateway, and the limiter must handle latency and store outages. In-memory limits reset on deploys and can be bypassed by spreading requests across instances.
 
-### 5. What should a senior engineer check in code review?
+### 5. A secret was accidentally committed to git. What steps do you take?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+Rotate the secret immediately, audit usage, remove it from current code, and treat repository history as compromised. History cleanup is useful, but rotation is the security fix because clones and caches may already exist.
 
 ---
 

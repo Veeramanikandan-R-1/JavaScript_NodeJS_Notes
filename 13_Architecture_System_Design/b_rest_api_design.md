@@ -121,25 +121,25 @@ DELETE /tasks/:id
 
 # Interview Questions with Answers
 
-### 1. How would you explain REST API Design in a real backend project?
+### 1. When should POST be idempotent, and how would you implement it?
 
-REST API Design should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Payment, order creation, and retry-prone commands should support idempotency keys. Store the key with request fingerprint and final response so a client retry returns the same result instead of creating duplicate side effects.
 
-### 2. What happens internally when REST API Design is involved?
+### 2. How do you design pagination for a table that changes while users are paging?
 
-Architecture is the set of boundaries that lets a backend change safely as requirements grow. A request usually crosses transport, application, domain, persistence, and integration layers. The right abstraction is the one that protects business rules from framework and infrastructure churn.
+Prefer cursor pagination for large or frequently changing datasets. The cursor should encode stable sort fields such as createdAt and id. Offset pagination is simpler but can skip or duplicate records as rows are inserted or deleted.
 
-### 3. What is a common production bug related to REST API Design?
+### 3. What should an error response include in a public REST API?
 
-Creating too many layers before the domain needs them.
+Use a stable machine-readable code, human-readable message, request id, and field-level validation details when relevant. Do not leak stack traces, database errors, or authorization internals.
 
-### 4. How would you debug an issue in REST API Design?
+### 4. How do PUT and PATCH differ in a code review?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+PUT should represent replacing the resource with a complete representation, while PATCH changes selected fields. In practice I check that partial updates cannot accidentally null fields, bypass validation, or change immutable fields.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you enforce multi-tenant resource ownership in REST routes?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Do not trust tenant or user ids from the path alone. Load the resource through a query scoped by the authenticated actor or tenant, and return 404 or 403 consistently based on the product security policy.
 
 ---
 

@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain V8, libuv, and Node Architecture in a real backend project?
+### 1. Walk me through what happens when a Node.js API receives a request and then reads from a database.
 
-V8, libuv, and Node Architecture should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+V8 runs the JavaScript handler, while Node's native bindings and the OS handle socket I/O. The database call is asynchronous, so the event loop can keep serving other requests until the callback or promise continuation is ready.
 
-### 2. What happens internally when V8, libuv, and Node Architecture is involved?
+### 2. Which work runs on the JavaScript main thread, and which work can move outside it?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+Your JavaScript, JSON parsing, object manipulation, and synchronous loops run on the main thread. Some filesystem, DNS, crypto, and compression work can use libuv's worker pool, while many network operations are handled by the OS.
 
-### 3. What is a common production bug related to V8, libuv, and Node Architecture?
+### 3. Why does a CPU-heavy route hurt unrelated requests in the same Node process?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+It monopolizes the JavaScript thread, so the event loop cannot run callbacks, timers, or response work promptly. The fix is to reduce the work, stream it, cache it, or move it to workers, child processes, or another service.
 
-### 4. How would you debug an issue in V8, libuv, and Node Architecture?
+### 4. How do you prove event loop blocking rather than guessing?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Measure event loop delay, CPU usage, request latency, and profiles under load. A flame graph or CPU profile showing long synchronous JavaScript frames is stronger evidence than intuition.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is the libuv thread pool, and when do you think about tuning it?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+It is a small pool used by selected async operations such as filesystem, crypto, zlib, and some DNS calls. Tune `UV_THREADPOOL_SIZE` only after measuring contention; it does not make JavaScript execution itself parallel.
 
 ---
 

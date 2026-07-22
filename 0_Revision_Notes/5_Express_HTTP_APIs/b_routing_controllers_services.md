@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Routing, Controllers, and Services in a real backend project?
+### 1. Where do you draw the line between route, controller, and service in an Express API?
 
-Routing, Controllers, and Services should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+The route maps method and path to middleware. The controller handles HTTP translation, while the service owns business rules and orchestration; this keeps product behavior testable without faking Express objects everywhere.
 
-### 2. What happens internally when Routing, Controllers, and Services is involved?
+### 2. A controller has 150 lines of validation, database calls, and response formatting. What would you refactor first?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+I would move validation into a schema or middleware and move business decisions into a service. The controller should become small enough that review focuses on HTTP mapping rather than hidden domain logic.
 
-### 3. What is a common production bug related to Routing, Controllers, and Services?
+### 3. How do you handle route versioning without duplicating the whole codebase?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+Version the HTTP contract at the routing/controller edge and reuse services when business behavior is the same. If behavior diverges, make that divergence explicit rather than hiding it behind conditionals spread through shared code.
 
-### 4. How would you debug an issue in Routing, Controllers, and Services?
+### 4. How should controllers communicate service failures to clients?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Services can return typed results or throw domain-specific errors, and the controller or central error mapper converts them to status codes. Avoid services that directly call `res.status()` because that couples business logic to Express.
 
-### 5. What should a senior engineer check in code review?
+### 5. What routing issue commonly causes security bugs in Express apps?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Putting broad or parameterized routes before specific protected routes can send requests through the wrong handler or middleware chain. Route order is part of the API contract and deserves tests for sensitive paths.
 
 ---
 

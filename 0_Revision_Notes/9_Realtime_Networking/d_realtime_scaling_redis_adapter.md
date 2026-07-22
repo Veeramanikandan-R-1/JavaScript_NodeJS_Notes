@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Realtime Scaling and Redis Adapter in a real backend project?
+### 1. Why does Socket.IO need an adapter when you run multiple Node processes?
 
-Realtime Scaling and Redis Adapter should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Without an adapter, each process only knows about sockets connected to itself. If process A emits to a room whose members are connected to process B, those clients will miss the message. The Redis adapter publishes room events across processes so broadcasts reach sockets regardless of which process owns the connection.
 
-### 2. What happens internally when Realtime Scaling and Redis Adapter is involved?
+### 2. Do you still need sticky sessions with a Redis adapter?
 
-Realtime systems keep long-lived connections and push events instead of relying only on request-response polling. WebSockets provide bidirectional communication; Socket.io adds reconnection, fallbacks, rooms, and acknowledgements. Presence and room state must be carefully owned when the app runs across multiple processes.
+Usually yes for the initial transport behavior, especially when long polling is enabled, because a client's handshake and polling requests must reach the same server. If you force WebSocket-only transport, sticky sessions may be less critical, but I still verify the load balancer behavior rather than assuming.
 
-### 3. What is a common production bug related to Realtime Scaling and Redis Adapter?
+### 3. What happens to realtime delivery when Redis is slow or unavailable?
 
-Storing room state only in memory and then scaling to multiple instances.
+Cross-node broadcasts can be delayed or missed, while sockets on the same node may still work. For critical events, Redis pub/sub should not be the only durable record; persist the event and let clients recover by sequence or snapshot. The system should expose adapter errors and reconnect behavior in metrics.
 
-### 4. How would you debug an issue in Realtime Scaling and Redis Adapter?
+### 4. How do you scale a high-fanout room?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would measure fanout size, payload size, serialization cost, and per-node send queues. Then I would reduce payloads, shard rooms if the domain allows it, use namespaces carefully, and move durable event history out of Socket.IO. Very large broadcasts often need product-level throttling or aggregation, not just more nodes.
 
-### 5. What should a senior engineer check in code review?
+### 5. What metrics prove your realtime cluster is healthy?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would watch connected sockets per node, room counts, publish latency, adapter errors, reconnect rate, emitted events per second, dropped or timed-out acknowledgements, process memory, and event-loop delay. Uneven connection distribution is also a sign that load balancing or sticky routing is wrong.
 
 ---
 

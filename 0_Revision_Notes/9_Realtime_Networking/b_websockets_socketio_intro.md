@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain WebSockets and Socket.io Introduction in a real backend project?
+### 1. When would you use WebSockets instead of polling or server-sent events?
 
-WebSockets and Socket.io Introduction should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+WebSockets fit bidirectional, low-latency communication such as chat, collaboration, multiplayer state, or live dashboards with client actions flowing back frequently. Server-sent events are simpler for one-way server-to-client updates, and polling is often enough for low-frequency updates. I would choose the simplest transport that meets latency and interaction needs.
 
-### 2. What happens internally when WebSockets and Socket.io Introduction is involved?
+### 2. What extra behavior does Socket.IO provide over raw WebSockets?
 
-Realtime systems keep long-lived connections and push events instead of relying only on request-response polling. WebSockets provide bidirectional communication; Socket.io adds reconnection, fallbacks, rooms, and acknowledgements. Presence and room state must be carefully owned when the app runs across multiple processes.
+Socket.IO adds connection fallback, automatic reconnection, heartbeats, rooms, acknowledgements, middleware, and adapters for scaling across nodes. That convenience is valuable, but it means the client and server must both speak the Socket.IO protocol. A raw WebSocket client cannot connect to a Socket.IO endpoint as if it were plain WebSocket.
 
-### 3. What is a common production bug related to WebSockets and Socket.io Introduction?
+### 3. How do you authenticate a WebSocket connection?
 
-Storing room state only in memory and then scaling to multiple instances.
+I authenticate during the handshake using a short-lived token or session cookie, then attach the user identity to the socket context. I also re-check authorization for sensitive events, because a connected socket is not permission to perform every action forever. Token expiry and revocation need an explicit strategy for long-lived connections.
 
-### 4. How would you debug an issue in WebSockets and Socket.io Introduction?
+### 4. A client disconnects and reconnects. How do you avoid losing important events?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+For important state, I do not rely only on transient socket delivery. I persist events or state changes with sequence ids, let the client resume from the last seen id, and send a fresh snapshot when needed. Realtime should be a delivery path, not the only source of truth.
 
-### 5. What should a senior engineer check in code review?
+### 5. What are common production failure modes for WebSocket systems?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Connection leaks, missing heartbeat timeouts, unauthenticated event handlers, unbounded fanout, large payloads, and load balancers not configured for upgrades are common. I would watch active connections, messages per second, payload size, reconnect rate, and per-node memory.
 
 ---
 

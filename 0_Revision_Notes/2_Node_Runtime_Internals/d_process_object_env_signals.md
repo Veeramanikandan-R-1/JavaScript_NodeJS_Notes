@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain process Object, Environment, and Signals in a real backend project?
+### 1. Which `process` fields or methods do you commonly use in production services?
 
-process Object, Environment, and Signals should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Common ones are `process.env`, `process.pid`, `process.cwd()`, `process.uptime()`, `process.memoryUsage()`, `process.hrtime.bigint()`, and signal handlers. They help with configuration, diagnostics, metrics, and lifecycle management.
 
-### 2. What happens internally when process Object, Environment, and Signals is involved?
+### 2. Why should configuration from `process.env` be validated at startup?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+Environment variables are strings and may be missing, malformed, or accidentally inherited. Failing fast at startup is much better than discovering a bad timeout, URL, or secret during live traffic.
 
-### 3. What is a common production bug related to process Object, Environment, and Signals?
+### 3. What should happen when a Node process receives `SIGTERM` in Kubernetes or a process manager?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+The service should stop accepting new work, let in-flight requests finish within a deadline, close database and queue connections, flush logs, and then exit. It should not keep running indefinitely.
 
-### 4. How would you debug an issue in process Object, Environment, and Signals?
+### 4. Why is calling `process.exit()` inside normal request code dangerous?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It can terminate active requests, skip async cleanup, drop logs, and trigger restart loops. Normal application errors should be handled and reported, not converted into whole-process exits.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you handle secrets in environment variables during debugging?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+Log whether required secrets are present and valid in shape, not their values. Redact known secret keys and avoid dumping `process.env` into logs or error reports.
 
 ---
 

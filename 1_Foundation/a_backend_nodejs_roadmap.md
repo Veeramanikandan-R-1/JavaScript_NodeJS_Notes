@@ -131,25 +131,25 @@ System design and capstone projects
 
 # Interview Questions with Answers
 
-### 1. How would you explain Backend Node.js Roadmap in a real backend project?
+### 1. When I ask you to design a small production API in Node.js, what layers do you expect to see and why?
 
-Backend Node.js Roadmap should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+A good answer separates transport, routing, validation, business logic, data access, error handling, and observability. I want to hear that Express or Fastify is only the HTTP boundary, not the whole architecture.
 
-### 2. What happens internally when Backend Node.js Roadmap is involved?
+### 2. What should a backend Node.js developer understand beyond writing Express routes?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+They should understand the event loop, async I/O, module loading, streams, process lifecycle, package management, security basics, database behavior, testing, and deployment. These are what make code survive traffic and failure.
 
-### 3. What is a common production bug related to Backend Node.js Roadmap?
+### 3. A junior says "Node is single-threaded, so it cannot scale." How do you respond?
 
-Learning only framework syntax and skipping runtime behavior.
+JavaScript execution is single-threaded per process, but Node scales well for I/O because libuv delegates many operations to the OS or a worker pool. For CPU-heavy work, use worker threads, separate services, or queues.
 
-### 4. How would you debug an issue in Backend Node.js Roadmap?
+### 4. What signals tell you a Node.js backend is production-ready rather than just demo-ready?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It has clear error handling, health checks, structured logs, configuration validation, graceful shutdown, tests around important flows, and predictable dependency versions. It also fails closed for auth and input validation.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you decide what to learn first when moving from JavaScript to backend Node.js?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Follow the request path: HTTP basics, routing, async control flow, validation, persistence, errors, auth, tests, and deployment. Learn runtime internals alongside features so you can explain behavior under load.
 
 ---
 

@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Socket.io Rooms and Presence in a real backend project?
+### 1. How do Socket.IO rooms differ from application authorization groups?
 
-Socket.io Rooms and Presence should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Rooms are an in-memory routing mechanism for broadcasts; they are not a security model by themselves. The server must authorize whether a socket may join a room and whether it may emit actions for that room. I would treat room membership as a delivery optimization backed by real domain permissions.
 
-### 2. What happens internally when Socket.io Rooms and Presence is involved?
+### 2. How would you implement presence for a user with multiple browser tabs or devices?
 
-Realtime systems keep long-lived connections and push events instead of relying only on request-response polling. WebSockets provide bidirectional communication; Socket.io adds reconnection, fallbacks, rooms, and acknowledgements. Presence and room state must be carefully owned when the app runs across multiple processes.
+I would track presence by user id plus connection ids, not a single boolean. A user is online while at least one active socket remains. In a multi-node setup, presence should live in Redis or another shared store with TTLs so crashes do not leave users permanently online.
 
-### 3. What is a common production bug related to Socket.io Rooms and Presence?
+### 3. Why can disconnect events be unreliable for presence?
 
-Storing room state only in memory and then scaling to multiple instances.
+Processes can crash, networks can drop, and mobile clients can disappear without a clean disconnect. Presence needs heartbeat or TTL-based expiry, not only `disconnect` handlers. The UI should also communicate approximate presence rather than pretending it is a perfect fact.
 
-### 4. How would you debug an issue in Socket.io Rooms and Presence?
+### 4. How do you broadcast to a room without echoing to the sender?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+In Socket.IO, I would use `socket.to(roomId).emit(...)` when the sender should not receive the event, and `io.to(roomId).emit(...)` when everyone including the sender should receive it. The choice matters for optimistic UI, duplicate rendering, and acknowledgement behavior.
 
-### 5. What should a senior engineer check in code review?
+### 5. What would you store for debugging room and presence issues?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would record connection id, user id, node id, joined rooms, auth claims version, heartbeat time, and disconnect reason when available. For privacy, I would avoid logging message bodies unless explicitly sampled and sanitized.
 
 ---
 

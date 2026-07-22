@@ -121,25 +121,25 @@ test("adds tax to subtotal", () => {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Jest Unit Tests in a real backend project?
+### 1. What makes a good unit test in a Node.js service?
 
-Jest Unit Tests should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+A good unit test verifies one behavior with clear inputs and observable output, without depending on network, time, filesystem, or database state unless that is the subject. It should fail for a real regression, not for harmless refactoring. I prefer testing business decisions and edge cases over implementation details.
 
-### 2. What happens internally when Jest Unit Tests is involved?
+### 2. When is mocking useful, and when does it make tests weaker?
 
-A good backend test suite checks pure functions, services, HTTP behavior, database integration, and critical production flows. Jest runs test files in isolated workers; async tests must return or await promises. Supertest drives Express apps without requiring a real network port.
+Mocking is useful at process boundaries such as email clients, payment SDKs, queues, and clocks. It becomes harmful when the test mostly asserts that private methods were called in a certain order. If a mock hides the real contract, I add an integration or contract test to cover the boundary.
 
-### 3. What is a common production bug related to Jest Unit Tests?
+### 3. How would you test error handling in a service function?
 
-Mocking so much that the test no longer proves production behavior.
+I would force the dependency to reject or return a known failure, then assert the service returns the right domain error, does not perform unsafe side effects, and logs or reports the failure if that is part of the contract. Error paths deserve first-class tests because they are often less exercised manually.
 
-### 4. How would you debug an issue in Jest Unit Tests?
+### 4. What is the difference between code coverage and useful confidence?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Coverage tells me which lines ran, not whether the important behavior was verified. A project can have high coverage with weak assertions. I use coverage to find blind spots, but confidence comes from meaningful assertions around business rules, boundaries, failures, and regressions.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you keep Jest tests maintainable as the codebase grows?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I keep test data builders small, avoid global mutable fixtures, reset mocks consistently, and name tests around behavior. Slow integration tests should be separated from fast unit tests so developers can run the right suite locally and CI can still enforce the full safety net.
 
 ---
 

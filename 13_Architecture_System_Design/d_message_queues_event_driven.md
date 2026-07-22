@@ -120,25 +120,25 @@ UserCreated event
 
 # Interview Questions with Answers
 
-### 1. How would you explain Message Queues and Event-driven Design in a real backend project?
+### 1. A consumer processes the same payment event twice. What design mistake do you look for first?
 
-Message Queues and Event-driven Design should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+The consumer probably assumes exactly-once delivery. Real systems are usually at-least-once, so handlers need idempotency keys, unique constraints, or processed-event records around the side effect.
 
-### 2. What happens internally when Message Queues and Event-driven Design is involved?
+### 2. When would you choose a queue over a synchronous HTTP call?
 
-Architecture is the set of boundaries that lets a backend change safely as requirements grow. A request usually crosses transport, application, domain, persistence, and integration layers. The right abstraction is the one that protects business rules from framework and infrastructure churn.
+Use a queue when work can happen asynchronously, needs retry, absorbs bursts, or fans out to other systems. Keep HTTP when the caller needs an immediate answer and the dependency is part of the user-facing transaction.
 
-### 3. What is a common production bug related to Message Queues and Event-driven Design?
+### 3. How do you handle poison messages?
 
-Creating too many layers before the domain needs them.
+Use bounded retries with backoff, then move the message to a dead-letter queue with enough metadata to debug. Infinite retry loops hide the real failure and can block good messages behind bad ones.
 
-### 4. How would you debug an issue in Message Queues and Event-driven Design?
+### 4. What problem does the outbox pattern solve?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It prevents the gap where the database commit succeeds but publishing the event fails. Write the domain change and outbound event in the same transaction, then have a relay publish the outbox record reliably.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do ordering requirements affect queue design?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Ordering usually requires partitioning by an entity key, such as orderId or userId, and accepting lower parallelism within that key. Global ordering is expensive and often unnecessary if the domain can define a narrower ordering guarantee.
 
 ---
 

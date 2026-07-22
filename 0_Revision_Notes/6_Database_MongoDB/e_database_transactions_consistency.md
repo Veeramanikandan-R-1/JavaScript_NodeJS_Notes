@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Transactions and Data Consistency in a real backend project?
+### 1. When do you actually need a MongoDB transaction?
 
-Transactions and Data Consistency should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use a transaction when multiple writes must commit or roll back as one business operation, such as creating an order and reserving inventory. Do not use transactions to hide poor data modeling or for single-document atomic updates.
 
-### 2. What happens internally when Transactions and Data Consistency is involved?
+### 2. What is an example where a single-document atomic update is better than a transaction?
 
-A Node API talks to databases through drivers or ORMs/ODMs that manage network calls and serialization. MongoDB stores documents; Mongoose adds schemas, validation, middleware, and model methods. Database performance depends heavily on indexes, query shape, connection pooling, and result size.
+Incrementing a counter, changing status with a condition, or reserving one item can often be done with `findOneAndUpdate` and a predicate. That is simpler, faster, and usually easier to retry safely.
 
-### 3. What is a common production bug related to Transactions and Data Consistency?
+### 3. What failure behavior should you expect around transactions?
 
-Trusting request bodies and storing them directly.
+Transactions can fail with transient errors, write conflicts, or unknown commit results. The application should retry only safe operations and use idempotency keys when an external request might be submitted again.
 
-### 4. How would you debug an issue in Transactions and Data Consistency?
+### 4. How would you avoid double-charging a customer when database and payment operations both happen?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Do not put the external payment call blindly inside a database transaction. Use idempotency with the payment provider, persist operation state, and design a recovery flow for uncertain outcomes.
 
-### 5. What should a senior engineer check in code review?
+### 5. What consistency tradeoff do you accept when using eventual consistency instead of a transaction?
 
-Is the query indexed? Is the result bounded? Does the data model enforce the invariant?
+The system may temporarily show stale or incomplete state, but it can be more available and scalable. The key is to make reconciliation, retries, and user-visible status explicit rather than pretending every step is instant.
 
 ---
 

@@ -129,25 +129,25 @@ export const config = {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Environment Variables and Configuration in a real backend project?
+### 1. What configuration belongs in environment variables, and what should stay in code or config files?
 
-Environment Variables and Configuration should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Environment variables are best for deployment-specific values such as ports, URLs, feature switches, and secret references. Stable application behavior, schemas, and complex structured settings are usually clearer in versioned config files or code.
 
-### 2. What happens internally when Environment Variables and Configuration is involved?
+### 2. How do you validate environment configuration at service startup?
 
-A CLI is a Node.js process with arguments, stdin, stdout, stderr, exit codes, and environment variables. Long-running CLI tools need cancellation, progress output, and careful filesystem safety. Many automation scripts become production dependencies, so they deserve tests and predictable behavior.
+Parse it once at the boundary, validate required values and types, normalize defaults, and crash early with a clear error if the process cannot run safely. Do not let missing config surface later as a random request failure.
 
-### 3. What is a common production bug related to Environment Variables and Configuration?
+### 3. A service accidentally connects to production MongoDB from a developer laptop. What config safeguards would you add?
 
-Parsing process.argv manually once the command shape grows.
+Use separate credentials, explicit environment names, protected production secrets, and startup checks that reject dangerous combinations. For destructive tools, require an explicit production confirmation flag and log the target before doing work.
 
-### 4. How would you debug an issue in Environment Variables and Configuration?
+### 4. How do you handle secrets differently from ordinary environment config?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Secrets should come from a secret manager or protected runtime environment, never from committed `.env` files. They should be redacted in logs, rotated cleanly, and scoped to the minimum permissions the service needs.
 
-### 5. What should a senior engineer check in code review?
+### 5. Why is reading `process.env` throughout the codebase a maintainability problem?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+It spreads parsing, defaults, and validation across unrelated modules. A central config module gives one place to document behavior, test bad config, and avoid inconsistent interpretations of the same environment variable.
 
 ---
 

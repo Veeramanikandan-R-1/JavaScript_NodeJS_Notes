@@ -125,25 +125,25 @@ test("creates a task", async () => {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Supertest Express Integration Tests in a real backend project?
+### 1. What should a Supertest integration test cover that a unit test does not?
 
-Supertest Express Integration Tests should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It should exercise the real HTTP boundary: routing, middleware order, validation, authentication behavior, status codes, headers, and response shape. I still mock external systems when needed, but the Express app should behave like it does in production for that request path.
 
-### 2. What happens internally when Supertest Express Integration Tests is involved?
+### 2. Why is middleware order a good target for integration tests?
 
-A good backend test suite checks pure functions, services, HTTP behavior, database integration, and critical production flows. Jest runs test files in isolated workers; async tests must return or await promises. Supertest drives Express apps without requiring a real network port.
+Many Express bugs come from auth, parsers, validation, and error handlers being registered in the wrong order. A Supertest test catches those mistakes because it sends an actual request through the stack. A controller unit test would miss them.
 
-### 3. What is a common production bug related to Supertest Express Integration Tests?
+### 3. How do you test authenticated routes with Supertest?
 
-Mocking so much that the test no longer proves production behavior.
+I either generate a real test token/session using the same signing configuration or seed a test user and log in through the auth route if the flow matters. I avoid bypassing auth middleware unless the test is explicitly scoped to controller logic, because bypassing it hides integration failures.
 
-### 4. How would you debug an issue in Supertest Express Integration Tests?
+### 4. What do you assert in an API error response test?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I assert the status code, stable error code or message shape, content type, and that sensitive internal details are not leaked. For validation errors, I also check field-level information if the API contract promises it. Logs can be checked separately when observability is part of the requirement.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you keep Supertest suites from becoming slow and brittle?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I build the app without calling `listen`, share lightweight setup helpers, seed only the data each test needs, and clean state deterministically. I also keep broad end-to-end flows limited; most API tests should cover one endpoint behavior at a time.
 
 ---
 

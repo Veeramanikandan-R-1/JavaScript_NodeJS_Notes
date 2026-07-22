@@ -121,25 +121,25 @@ Can an interviewer see your tradeoffs?
 
 # Interview Questions with Answers
 
-### 1. How would you explain Capstone: Production-ready Node API in a real backend project?
+### 1. Architecture review: what makes this API feel production-ready instead of tutorial-shaped?
 
-Capstone: Production-ready Node API should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Feature modules should have clear boundaries, configuration should be centralized, persistence should be abstracted enough for testing, and cross-cutting concerns such as auth, validation, logging, and error handling should be consistent across routes.
 
-### 2. What happens internally when Capstone: Production-ready Node API is involved?
+### 2. Edge-case review: which production failures should the design acknowledge?
 
-A capstone should prove you can build, test, secure, deploy, and operate a backend feature set. Project quality shows in boundaries, edge cases, tests, documentation, and operational behavior. The best backend projects are small enough to finish and deep enough to expose real tradeoffs.
+Dependency timeouts, retries causing duplicate writes, pagination over changing data, partial outages, slow clients, bad JSON, expired tokens, and long-running requests during deploy. A strong capstone shows deliberate behavior for each.
 
-### 3. What is a common production bug related to Capstone: Production-ready Node API?
+### 3. Testing review: what test mix would you expect?
 
-Building many shallow endpoints with no validation, auth, tests, or deployment story.
+Unit tests for pure rules, integration tests for routes and database behavior, contract tests for external dependencies if any, and a few end-to-end smoke tests for critical user flows. Tests should also cover failure paths, not only happy paths.
 
-### 4. How would you debug an issue in Capstone: Production-ready Node API?
+### 4. Security review: what should be visible in the project review?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Input validation, authentication, resource-level authorization, secure password and token handling, rate limits on sensitive endpoints, safe headers, secret management, and logs that help audits without storing sensitive payloads.
 
-### 5. What should a senior engineer check in code review?
+### 5. Deployability review: what would you ask before approving it for a staging deploy?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+How migrations run, how readiness differs from liveness, how config and secrets are supplied, how rollback works, what dashboards or alerts exist, and whether the Docker image or process manager handles SIGTERM cleanly.
 
 ---
 

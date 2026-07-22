@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Caching and Redis in a real backend project?
+### 1. What makes a good candidate for Redis caching?
 
-Caching and Redis should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Data that is read often, somewhat expensive to compute or fetch, and acceptable to serve slightly stale is a good candidate. User permissions, rapidly changing balances, and strongly consistent workflows need more care. I always define the freshness requirement before adding cache.
 
-### 2. What happens internally when Caching and Redis is involved?
+### 2. How do you avoid cache stampede on a hot key?
 
-Node performance is usually about event loop health, I/O latency, payload size, database queries, and CPU hotspots. The libuv thread pool handles selected blocking native operations; cluster and PM2 scale across CPU cores with multiple processes. Worker threads parallelize CPU-heavy JavaScript inside a process.
+I would use TTL jitter, request coalescing or locks, stale-while-revalidate, and sometimes prewarming for predictable hot data. The goal is to prevent many processes from recomputing the same value when a key expires at once.
 
-### 3. What is a common production bug related to Caching and Redis?
+### 3. What are the risks of cache-aside?
 
-Adding cluster workers before fixing slow queries or blocking JavaScript.
+Cache-aside is simple, but invalidation is easy to get wrong. The app reads from cache, falls back to the database, then writes cache; writes must delete or update affected keys. Stale data, missing invalidation, and inconsistent key naming are the usual failure modes.
 
-### 4. How would you debug an issue in Caching and Redis?
+### 4. How would you design Redis keys for a backend service?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Keys should include domain, identifier, version when needed, and environment or tenant boundaries where relevant. I avoid keys that require broad scans in request paths. A clear naming convention helps invalidation and debugging, for example `user:v2:{userId}:profile`.
 
-### 5. What should a senior engineer check in code review?
+### 5. What do you monitor for Redis-backed caching?
 
-What is the measured bottleneck? Can this scale statelessly? What happens at p99 latency?
+I watch hit rate, latency, memory usage, evictions, key count, connection errors, command timeouts, and hot keys. A high hit rate is not enough if stale data is causing correctness issues, so I also track cache-related incidents and fallback database load.
 
 ---
 

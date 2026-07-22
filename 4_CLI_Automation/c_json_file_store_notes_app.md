@@ -130,25 +130,25 @@ export async function saveNotes(file, notes) {
 
 # Interview Questions with Answers
 
-### 1. How would you explain JSON File Store Notes App in a real backend project?
+### 1. A notes CLI stores data in a JSON file. What problems appear as soon as two commands run at the same time?
 
-JSON File Store Notes App should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Both commands may read the same old file and then overwrite each other's updates. For a real tool, I would use a lock, atomic write through a temp file plus rename, or move the state into a database if concurrent writes matter.
 
-### 2. What happens internally when JSON File Store Notes App is involved?
+### 2. How would you prevent a corrupted JSON file from losing all user notes?
 
-A CLI is a Node.js process with arguments, stdin, stdout, stderr, exit codes, and environment variables. Long-running CLI tools need cancellation, progress output, and careful filesystem safety. Many automation scripts become production dependencies, so they deserve tests and predictable behavior.
+Write to a temporary file, fsync where appropriate, then rename atomically so the old file remains valid until the new file is complete. I would also keep backups or recovery behavior for parse failures.
 
-### 3. What is a common production bug related to JSON File Store Notes App?
+### 3. What validation belongs around a file-backed notes app?
 
-Parsing process.argv manually once the command shape grows.
+Validate note shape, required fields, maximum sizes, allowed status values, and duplicate identifiers before writing. Treat the JSON file as untrusted input because users can edit it manually or previous versions may have written older shapes.
 
-### 4. How would you debug an issue in JSON File Store Notes App?
+### 4. When would you stop using a JSON file and switch to SQLite or a server-side database?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would switch when concurrent writes, querying, migrations, auditing, or multi-device access become real requirements. JSON files are fine for simple local state, but they become expensive once you need database guarantees.
 
-### 5. What should a senior engineer check in code review?
+### 5. How should the CLI behave if the data file does not exist or contains invalid JSON?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+A missing file can be initialized intentionally, preferably with a clear path. Invalid JSON should fail loudly, keep the broken file untouched, and tell the user how to recover rather than silently replacing it with an empty store.
 
 ---
 

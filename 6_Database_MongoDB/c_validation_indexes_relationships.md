@@ -121,25 +121,25 @@ taskSchema.index({ owner: 1, completed: 1, createdAt: -1 });
 
 # Interview Questions with Answers
 
-### 1. How would you explain Validation, Indexes, and Relationships in a real backend project?
+### 1. What validation should live in MongoDB indexes instead of only application code?
 
-Validation, Indexes, and Relationships should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Uniqueness and some existence constraints should be enforced with indexes because application checks can race. For example, unique email per tenant needs a compound unique index, not just a pre-create query.
 
-### 2. What happens internally when Validation, Indexes, and Relationships is involved?
+### 2. How do you model relationships in MongoDB: embed or reference?
 
-A Node API talks to databases through drivers or ORMs/ODMs that manage network calls and serialization. MongoDB stores documents; Mongoose adds schemas, validation, middleware, and model methods. Database performance depends heavily on indexes, query shape, connection pooling, and result size.
+Embed when the child data is read with the parent, bounded in size, and updated together. Reference when the data grows independently, is shared, or needs separate lifecycle and query patterns.
 
-### 3. What is a common production bug related to Validation, Indexes, and Relationships?
+### 3. A query filters by `tenantId` and `status`, then sorts by `createdAt`. What index would you consider?
 
-Trusting request bodies and storing them directly.
+I would consider a compound index like `{ tenantId: 1, status: 1, createdAt: -1 }`, based on actual cardinality and query patterns. The goal is to support both filtering and sort without scanning too much data.
 
-### 4. How would you debug an issue in Validation, Indexes, and Relationships?
+### 4. What is the risk of adding indexes casually to fix every slow query?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Indexes speed reads but slow writes and consume memory and storage. Too many overlapping indexes can hurt write-heavy workloads, so I would verify with explain plans and production-like query frequency.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you enforce referential integrity when MongoDB does not behave like a relational database?
 
-Is the query indexed? Is the result bounded? Does the data model enforce the invariant?
+Use application-level checks, transactions when multiple documents must change together, and cleanup jobs for eventual consistency. For critical ownership boundaries, include identifiers like `tenantId` in related documents and indexes.
 
 ---
 

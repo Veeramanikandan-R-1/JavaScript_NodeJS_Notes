@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Capstone: Task Manager REST API in a real backend project?
+### 1. Architecture review: how should the task API be divided?
 
-Capstone: Task Manager REST API should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use routes/controllers for HTTP mapping, services for use cases, repositories for persistence, and middleware for authentication. Ownership and status-transition rules belong in the service layer so they are tested without Express.
 
-### 2. What happens internally when Capstone: Task Manager REST API is involved?
+### 2. Edge-case review: what cases should a senior reviewer ask about?
 
-A capstone should prove you can build, test, secure, deploy, and operate a backend feature set. Project quality shows in boundaries, edge cases, tests, documentation, and operational behavior. The best backend projects are small enough to finish and deep enough to expose real tradeoffs.
+Updating someone else's task, duplicate titles if the product disallows them, invalid due dates, concurrent edits, deleting a task with comments or attachments, and pagination while tasks are being created.
 
-### 3. What is a common production bug related to Capstone: Task Manager REST API?
+### 3. Testing review: what coverage would make you trust the API?
 
-Building many shallow endpoints with no validation, auth, tests, or deployment story.
+Integration tests should hit real routes with a test database for create, list, update, delete, auth failures, validation errors, and ownership checks. Unit tests can cover pure task-state rules and date validation.
 
-### 4. How would you debug an issue in Capstone: Task Manager REST API?
+### 4. Security review: what must not be missed?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Hash passwords, validate inputs, enforce object-level authorization on every task lookup, use safe JWT verification, rate-limit auth endpoints, and avoid leaking whether a private task exists to another user.
 
-### 5. What should a senior engineer check in code review?
+### 5. Deployability review: what belongs in the handoff?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Database indexes, migrations or schema setup, env var examples, Docker or run commands, health/readiness endpoint, seed data if useful, and logs that include request ids without exposing task contents unnecessarily.
 
 ---
 

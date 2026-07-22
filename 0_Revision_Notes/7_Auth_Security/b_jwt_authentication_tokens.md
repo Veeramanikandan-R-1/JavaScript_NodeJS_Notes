@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain JWT Authentication Tokens in a real backend project?
+### 1. What should you put in a JWT access token, and what should you leave out?
 
-JWT Authentication Tokens should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Put only stable, minimal claims needed for authorization decisions, such as subject, issuer, audience, expiry, and maybe role or tenant. Do not put secrets, personal data, or anything you need to revoke instantly without extra server-side checks.
 
-### 2. What happens internally when JWT Authentication Tokens is involved?
+### 2. How do you validate a JWT correctly on an API request?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+Verify signature, algorithm, issuer, audience, expiry, and not-before if used. Then map the subject to current server-side state if account status, tenant membership, or token revocation matters.
 
-### 3. What is a common production bug related to JWT Authentication Tokens?
+### 3. Why are short-lived access tokens often paired with refresh tokens?
 
-Putting sensitive data into JWT payloads.
+Short-lived access tokens limit damage if stolen, while refresh tokens let users stay signed in. Refresh tokens need stronger storage, rotation, reuse detection, and a way to revoke sessions.
 
-### 4. How would you debug an issue in JWT Authentication Tokens?
+### 4. How would you handle logout with JWTs?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+For access tokens, logout usually deletes the client copy and relies on short expiry. For stronger logout, track token ids or session versions server-side and reject tokens that were revoked after issuance.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is a common JWT mistake you look for in code review?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+Accepting a decoded token without verifying it, or failing to pin expected algorithms, issuer, and audience. Another common issue is using long-lived tokens as if they were server-side sessions.
 
 ---
 

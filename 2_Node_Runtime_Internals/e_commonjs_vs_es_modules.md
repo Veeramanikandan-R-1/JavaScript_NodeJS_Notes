@@ -124,25 +124,25 @@ console.log(add(2, 3));
 
 # Interview Questions with Answers
 
-### 1. How would you explain CommonJS vs ES Modules in a real backend project?
+### 1. What changes when a package moves from CommonJS to ES Modules?
 
-CommonJS vs ES Modules should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Imports become static by default, file extensions and package `type` matter, `require` is not available directly, and some interop behavior changes. The migration affects tests, build tools, mocking, and consumers.
 
-### 2. What happens internally when CommonJS vs ES Modules is involved?
+### 2. Why can `require()` load some ESM packages poorly or not at all?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+ESM has a different loader and supports async linking, so CommonJS cannot always synchronously load it. The usual answer is dynamic `import()` from CommonJS or moving the caller to ESM.
 
-### 3. What is a common production bug related to CommonJS vs ES Modules?
+### 3. What is the difference between CommonJS exports and ESM named exports?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+CommonJS exports a runtime object through `module.exports`; ESM named exports are statically analyzable bindings. Interop can create default-wrapper surprises, so imports should be tested from the consuming side.
 
-### 4. How would you debug an issue in CommonJS vs ES Modules?
+### 4. How do `__dirname` and `__filename` change in ESM?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+They are not defined in ESM. Use `import.meta.url` with `fileURLToPath` and `path.dirname` when you need filesystem paths relative to the module.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you reduce risk when converting a backend repo from CommonJS to ESM?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+Convert at clear boundaries, verify tooling support, test package entry points, watch for mocked modules, and avoid mixing styles casually. The risky part is ecosystem compatibility, not the import syntax itself.
 
 ---
 

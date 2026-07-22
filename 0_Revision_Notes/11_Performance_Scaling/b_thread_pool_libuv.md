@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain libuv Thread Pool in a real backend project?
+### 1. What work uses the libuv thread pool in Node.js?
 
-libuv Thread Pool should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Several async APIs use the pool, including many filesystem operations, DNS `lookup`, zlib, and crypto operations such as `pbkdf2` and `scrypt`. These operations do not block the JavaScript thread directly, but they can queue behind each other when the pool is saturated.
 
-### 2. What happens internally when libuv Thread Pool is involved?
+### 2. How can the thread pool become a production bottleneck?
 
-Node performance is usually about event loop health, I/O latency, payload size, database queries, and CPU hotspots. The libuv thread pool handles selected blocking native operations; cluster and PM2 scale across CPU cores with multiple processes. Worker threads parallelize CPU-heavy JavaScript inside a process.
+If many expensive crypto, compression, or filesystem tasks run at once, the default pool can fill up and unrelated operations wait. The API may look async in code but still show high latency. I would monitor operation duration, queue symptoms, CPU, and dependency timing before changing pool size.
 
-### 3. What is a common production bug related to libuv Thread Pool?
+### 3. Should you always increase `UV_THREADPOOL_SIZE` for better performance?
 
-Adding cluster workers before fixing slow queries or blocking JavaScript.
+No. A bigger pool can improve throughput for some I/O or native tasks, but it can also increase CPU contention and memory use. I would benchmark with realistic concurrency and set it before the process starts. For true CPU-heavy JavaScript, worker threads or separate services are usually more appropriate.
 
-### 4. How would you debug an issue in libuv Thread Pool?
+### 4. Why can password hashing affect unrelated file operations?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Algorithms like bcrypt or scrypt often use native worker threads. If login traffic saturates the pool, filesystem operations that also need the pool can wait. This is why authentication load, job workers, and API work sometimes need separate processes or careful concurrency limits.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you design around expensive thread-pool tasks?
 
-What is the measured bottleneck? Can this scale statelessly? What happens at p99 latency?
+I would cap concurrency, use queues for bursty workloads, separate worker processes for heavy jobs, tune pool size based on measurement, and avoid mixing latency-sensitive API work with batch processing in the same process.
 
 ---
 

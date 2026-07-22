@@ -125,25 +125,25 @@ type Query {
 
 # Interview Questions with Answers
 
-### 1. How would you explain GraphQL Basics for Node.js in a real backend project?
+### 1. A GraphQL endpoint becomes slow only when the client asks for nested fields. What is the likely issue?
 
-GraphQL Basics for Node.js should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It is often the N+1 query problem. Use DataLoader or equivalent batching per request, add resolver-level timing, and check generated database queries. GraphQL makes field selection flexible, so resolver cost must be designed deliberately.
 
-### 2. What happens internally when GraphQL Basics for Node.js is involved?
+### 2. Where should authorization live in a GraphQL API?
 
-Architecture is the set of boundaries that lets a backend change safely as requirements grow. A request usually crosses transport, application, domain, persistence, and integration layers. The right abstraction is the one that protects business rules from framework and infrastructure churn.
+Authentication can happen at context creation, but authorization must also happen in resolvers or domain services for object and field access. Hiding a field in the schema is not enough if another resolver can still fetch the object.
 
-### 3. What is a common production bug related to GraphQL Basics for Node.js?
+### 3. Why is cursor pagination common in GraphQL connections?
 
-Creating too many layers before the domain needs them.
+It gives stable pagination over changing data and fits edges, nodes, and pageInfo. Offset pagination is easier to explain, but it performs poorly and becomes inconsistent on large mutable lists.
 
-### 4. How would you debug an issue in GraphQL Basics for Node.js?
+### 4. How do you protect GraphQL from overly expensive queries?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Use depth limits, complexity scoring, persisted queries for public clients, timeouts, rate limits, and resolver-level batching. I would also monitor operation names so one expensive query can be identified quickly.
 
-### 5. What should a senior engineer check in code review?
+### 5. How should GraphQL errors be handled when part of a query succeeds?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Return partial data only when the schema and client can tolerate it, with clear errors tied to paths. For mutations, I prefer explicit domain result types or consistent error mapping so clients can distinguish validation, auth, and system failures.
 
 ---
 

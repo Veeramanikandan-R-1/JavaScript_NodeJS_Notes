@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Image Processing and Serving Files in a real backend project?
+### 1. An avatar upload triggers Sharp image resizing and your API latency spikes. What is happening?
 
-Image Processing and Serving Files should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Image decoding and resizing are CPU-heavy and memory-heavy. Even though Sharp uses native code and libuv workers, running it inline still competes with request handling and can exhaust CPU under concurrency. I would move expensive variants to a queue, keep a small synchronous path only if needed, and measure CPU, memory, and event-loop delay during peak uploads.
 
-### 2. What happens internally when Image Processing and Serving Files is involved?
+### 2. What checks do you add before processing user-uploaded images?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+I would enforce byte-size and pixel-dimension limits, verify the file signature, reject unsupported formats, strip unsafe metadata, and handle decoder errors as normal bad-input cases. I would also guard against decompression bombs, because a small compressed image can expand into huge memory usage.
 
-### 3. What is a common production bug related to Image Processing and Serving Files?
+### 3. How would you serve private files without exposing your storage bucket?
 
-Learning only framework syntax and skipping runtime behavior.
+The API should authorize the user, then either stream the file through the backend for strict control or issue a short-lived signed URL for efficient delivery. For large files, signed URLs plus correct object ACLs are usually better. The important part is that object keys are not treated as authorization.
 
-### 4. How would you debug an issue in Image Processing and Serving Files?
+### 4. What caching headers would you use for generated image variants?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+For immutable variants addressed by a content hash, I would use long `Cache-Control` with `immutable` and let the CDN cache aggressively. For user avatars at stable URLs, I would use versioned URLs or ETags so clients do not see stale images forever. The cache strategy should match whether the URL changes when content changes.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you debug corrupted or rotated images in production?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would keep the original object, record the processor version and transformation parameters, and reproduce with the same input. Rotation issues often come from EXIF orientation handling, while corruption may come from truncated uploads or streaming errors. A good pipeline stores enough metadata to replay the transform without asking the user to upload again.
 
 ---
 

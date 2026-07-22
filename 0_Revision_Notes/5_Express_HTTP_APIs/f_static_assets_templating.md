@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Static Assets and Templating in a real backend project?
+### 1. When would you serve static assets from Express, and when would you move them to a CDN or object storage?
 
-Static Assets and Templating should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Express is fine for small internal apps or local development. For public, high-traffic, cacheable assets, a CDN or object storage is better because it reduces app load and handles caching, range requests, and global delivery well.
 
-### 2. What happens internally when Static Assets and Templating is involved?
+### 2. What cache headers would you use for fingerprinted static assets?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+For hashed filenames, use a long `Cache-Control` lifetime with `immutable` because content changes create a new URL. For non-fingerprinted files like `index.html`, use shorter caching or revalidation.
 
-### 3. What is a common production bug related to Static Assets and Templating?
+### 3. What security concern comes with rendering server-side templates?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+Unescaped user input can create XSS. Use the template engine's escaping by default, avoid raw HTML insertion unless reviewed, and combine it with sensible CSP headers for defense in depth.
 
-### 4. How would you debug an issue in Static Assets and Templating?
+### 4. A user reports that a newly deployed CSS file is not loading. What would you check?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would check asset path generation, reverse proxy base paths, static middleware order, cache headers, and whether the HTML references a fingerprint that actually exists in the deployed build.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you avoid leaking private files through `express.static`?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Serve only a dedicated public directory, never the project root or upload root. Disable directory listing where relevant and keep secrets, source files, and private uploads outside the static path.
 
 ---
 

@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Streams, Backpressure, and pipeline in a real backend project?
+### 1. What does backpressure mean in a Node.js stream pipeline?
 
-Streams, Backpressure, and pipeline should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It means the writable side is telling the readable side to slow down because its internal buffer is full. Respecting `write()` returning `false`, `drain`, and pipeline mechanics prevents memory blowups.
 
-### 2. What happens internally when Streams, Backpressure, and pipeline is involved?
+### 2. Why is `stream.pipeline()` usually safer than manually calling `.pipe()` several times?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+`pipeline()` wires errors and cleanup across the full chain and gives one completion callback or promise. Manual `.pipe()` code often misses an error listener or leaves a stream open.
 
-### 3. What is a common production bug related to Streams, Backpressure, and pipeline?
+### 3. How would you stream a large CSV export without exhausting memory?
 
-Building paths with string concatenation instead of the path module.
+Read or generate rows incrementally, transform them to CSV chunks, set response headers early, and pipe through a backpressure-aware chain. Avoid building the entire CSV string before sending.
 
-### 4. How would you debug an issue in Streams, Backpressure, and pipeline?
+### 4. What does `highWaterMark` control, and why should you be careful changing it?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It controls the buffer threshold before backpressure is applied, not a hard maximum object count in every case. Raising it can improve throughput in some workloads but increases memory per stream.
 
-### 5. What should a senior engineer check in code review?
+### 5. What stream bug causes requests to hang forever?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+Missing error handling, not ending the destination, ignoring aborts, or swallowing transform callback errors. I expect cleanup on client disconnects and tests for failure paths, not only the happy path.
 
 ---
 

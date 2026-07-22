@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Test Database Setup and Teardown in a real backend project?
+### 1. What are the tradeoffs between an in-memory database and a real test database?
 
-Test Database Setup and Teardown should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+An in-memory database is fast and simple, but it may not match production behavior for indexes, transactions, query plans, or driver quirks. A real test database is slower but gives higher confidence. For serious backend work, I prefer a real isolated database for integration tests and unit tests for pure logic.
 
-### 2. What happens internally when Test Database Setup and Teardown is involved?
+### 2. How do you keep database tests isolated from each other?
 
-A good backend test suite checks pure functions, services, HTTP behavior, database integration, and critical production flows. Jest runs test files in isolated workers; async tests must return or await promises. Supertest drives Express apps without requiring a real network port.
+Each test should create the data it needs and remove it afterward, or run inside a transaction that rolls back when the database supports it. Unique test data and per-suite schemas/databases also help. Tests should not depend on execution order or shared leftover records.
 
-### 3. What is a common production bug related to Test Database Setup and Teardown?
+### 3. Why can `deleteMany({})` in teardown be dangerous or slow?
 
-Mocking so much that the test no longer proves production behavior.
+It can accidentally point at the wrong database if configuration is bad, and it gets expensive as collections grow. I want explicit test database names, environment guards, and indexes that support cleanup strategies. In some systems, dropping the database or using transactions is cleaner.
 
-### 4. How would you debug an issue in Test Database Setup and Teardown?
+### 4. How would you test code that relies on unique indexes?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would run against a database where the real index exists, insert the conflicting record, then assert the service maps the database duplicate-key error to the correct domain or HTTP error. Mocking this path often misses the exact timing and error shape.
 
-### 5. What should a senior engineer check in code review?
+### 5. What setup belongs in global test hooks versus individual tests?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Global hooks should start shared infrastructure and establish connections. Individual tests should create domain data relevant to their behavior. Putting too much domain setup globally makes tests coupled and hides why a specific assertion passes.
 
 ---
 

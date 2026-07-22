@@ -119,25 +119,25 @@ DEBUG=app:* npm run dev
 
 # Interview Questions with Answers
 
-### 1. How would you explain Debugging Node.js Applications in a real backend project?
+### 1. A Node.js API occasionally returns 500s with no obvious pattern. How do you start debugging?
 
-Debugging Node.js Applications should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I first correlate request IDs, logs, error stacks, deploys, inputs, downstream calls, and resource metrics. Then I reproduce the path with the smallest failing case and add targeted instrumentation.
 
-### 2. What happens internally when Debugging Node.js Applications is involved?
+### 2. When would you use the Node inspector instead of more logging?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+Use the inspector when you need to step through control flow, inspect closures, break on exceptions, or understand state mutation. In production, prefer safe observability unless you have a controlled debugging environment.
 
-### 3. What is a common production bug related to Debugging Node.js Applications?
+### 3. How do you debug high memory usage in a Node.js process?
 
-Learning only framework syntax and skipping runtime behavior.
+Capture heap snapshots, compare allocation growth over time, check caches and listeners, inspect large request bodies, and watch external memory from buffers. The key is separating a real leak from expected memory pressure.
 
-### 4. How would you debug an issue in Debugging Node.js Applications?
+### 4. What makes a stack trace in async Node.js code misleading?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Async boundaries can hide the original caller or show only where a promise rejected. Good error wrapping, `cause`, request context, and structured logs make the trace useful again.
 
-### 5. What should a senior engineer check in code review?
+### 5. What do you expect in logs when reviewing a production Node.js service?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Logs should include severity, timestamp, request or correlation ID, operation name, sanitized inputs, latency, and error details. They should not leak secrets or depend on humans reading unstructured strings.
 
 ---
 

@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain http and https Core Modules in a real backend project?
+### 1. What does Node's core `http` server give you before Express or Fastify are involved?
 
-http and https Core Modules should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It gives you raw request and response streams, headers, methods, URLs, sockets, and lifecycle events. Frameworks add routing, middleware, validation conventions, and nicer error handling on top.
 
-### 2. What happens internally when http and https Core Modules is involved?
+### 2. Why must a raw Node HTTP server handle request body size explicitly?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+The request body is a stream, and Node will not magically enforce your application limit. Without limits and abort handling, a client can consume memory or keep the connection open too long.
 
-### 3. What is a common production bug related to http and https Core Modules?
+### 3. Which server timeouts do you think about for public HTTP services?
 
-Building paths with string concatenation instead of the path module.
+Headers timeout, request timeout, keep-alive timeout, and idle socket behavior all matter. Bad timeout defaults can enable slow-client attacks or cause surprising disconnects behind a load balancer.
 
-### 4. How would you debug an issue in http and https Core Modules?
+### 4. What causes `ERR_HTTP_HEADERS_SENT`, and how do you prevent it?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It happens when code writes headers or a response more than once, often across async branches. Return after sending, centralize response handling, and make error paths mutually exclusive.
 
-### 5. What should a senior engineer check in code review?
+### 5. What changes when you use `https` directly instead of terminating TLS at a proxy?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+The Node process must manage certificates, keys, ciphers, rotation, and TLS-related failures. Many production systems terminate TLS at a proxy, but direct HTTPS is still useful for internal tools and local parity tests.
 
 ---
 

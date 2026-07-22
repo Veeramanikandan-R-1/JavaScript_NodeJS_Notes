@@ -121,25 +121,25 @@ node notes remove --title "Streams"
 
 # Interview Questions with Answers
 
-### 1. How would you explain Capstone: Notes CLI in a real backend project?
+### 1. Architecture review: how would you structure the Notes CLI so it is not just argument parsing glued to fs.writeFile?
 
-Capstone: Notes CLI should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I would split command parsing, note service, validation, and storage adapter. The service should work without the terminal so it can be tested directly, while the CLI layer only maps argv to service calls and exit codes.
 
-### 2. What happens internally when Capstone: Notes CLI is involved?
+### 2. Edge-case review: what can go wrong with a JSON-file note store?
 
-A capstone should prove you can build, test, secure, deploy, and operate a backend feature set. Project quality shows in boundaries, edge cases, tests, documentation, and operational behavior. The best backend projects are small enough to finish and deep enough to expose real tradeoffs.
+The file can be missing, empty, corrupted, or written by two commands at once. I would handle parse errors clearly, write atomically through a temp file plus rename, reject duplicate normalized titles, and avoid losing data on partial writes.
 
-### 3. What is a common production bug related to Capstone: Notes CLI?
+### 3. Testing review: what tests prove this CLI is more than a demo?
 
-Building many shallow endpoints with no validation, auth, tests, or deployment story.
+Unit-test add, remove, list, search, duplicate titles, and invalid input against a temp storage path. Add a few CLI smoke tests that execute the binary and assert stdout, stderr, exit codes, and persistence between commands.
 
-### 4. How would you debug an issue in Capstone: Notes CLI?
+### 4. Security review: what risks still exist in a local CLI?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Do not let user-supplied titles become file paths, do not eval filters, and avoid printing raw control characters that can make terminal output misleading. Store data in a predictable app path with reasonable file permissions.
 
-### 5. What should a senior engineer check in code review?
+### 5. Deployability review: how would another developer install and run it reliably?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Expose a package bin entry, document Node version and commands, use cross-platform path handling, ship sample commands, and make failures return non-zero exit codes. A reviewer should be able to npm install and run the CLI without editing source files.
 
 ---
 

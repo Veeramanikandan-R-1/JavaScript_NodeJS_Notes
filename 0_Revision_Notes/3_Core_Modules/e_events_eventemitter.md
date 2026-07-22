@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain events Module and EventEmitter in a real backend project?
+### 1. Are EventEmitter listeners called synchronously or asynchronously?
 
-events Module and EventEmitter should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+They are called synchronously in registration order when `emit()` runs. If a listener does expensive work, it blocks the emitter and the current event loop turn.
 
-### 2. What happens internally when events Module and EventEmitter is involved?
+### 2. Why is the `error` event special in Node's EventEmitter?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+If an `error` event is emitted without a listener, Node throws and can crash the process. Production emitters should have clear error listeners or convert errors into promise/callback boundaries.
 
-### 3. What is a common production bug related to events Module and EventEmitter?
+### 3. What does `MaxListenersExceededWarning` usually tell you?
 
-Building paths with string concatenation instead of the path module.
+It often indicates listeners are being added repeatedly without being removed, such as per request or per reconnect. It might be intentional fan-out, but you should prove it before raising the limit.
 
-### 4. How would you debug an issue in events Module and EventEmitter?
+### 4. When would you use `.once()` instead of `.on()`?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Use `.once()` for lifecycle events that should be handled only once, such as ready, close, first response, or one-time cleanup. It avoids duplicate handling and reduces listener leaks.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is risky about `async` EventEmitter listeners?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+The emitter does not automatically await them, and rejected promises may be missed depending on configuration and usage. If ordering, failure, or backpressure matters, a promise-based API or queue may be clearer.
 
 ---
 

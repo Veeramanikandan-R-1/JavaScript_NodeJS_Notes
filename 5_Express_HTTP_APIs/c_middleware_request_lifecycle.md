@@ -125,25 +125,25 @@ app.get("/me", requireAuth, (req, res) => res.json({ user: req.user }));
 
 # Interview Questions with Answers
 
-### 1. How would you explain Express Middleware and Request Lifecycle in a real backend project?
+### 1. Walk me through what happens when a request enters an Express app with several middleware functions.
 
-Express Middleware and Request Lifecycle should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Express runs matching middleware and routes in registration order. Each layer must either end the response, call `next()`, or pass an error to `next(err)`; otherwise the request hangs.
 
-### 2. What happens internally when Express Middleware and Request Lifecycle is involved?
+### 2. What is the difference between normal middleware and error-handling middleware?
 
-Express is a routing and middleware layer on top of Node's HTTP server. Middleware runs in registration order and must either end the response or call next. Requests and responses are streams, even when Express hides most stream details.
+Normal middleware has `(req, res, next)` and runs in the usual chain. Error middleware has four arguments, `(err, req, res, next)`, and Express only enters it after an error is passed or thrown in supported async flow.
 
-### 3. What is a common production bug related to Express Middleware and Request Lifecycle?
+### 3. Why is middleware order a senior-level concern, not just a style preference?
 
-Forgetting to return after sending a response and accidentally continuing request logic.
+Order controls whether parsing, authentication, rate limiting, logging, and route handlers see the request. A misplaced body parser or auth middleware can create broken endpoints or real security gaps.
 
-### 4. How would you debug an issue in Express Middleware and Request Lifecycle?
+### 4. How do you avoid request-scoped data becoming messy across middleware?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Use a small, documented place such as `res.locals` or a typed request extension, and set only data that later layers truly need. Avoid hidden dependencies where a route silently assumes five previous middleware functions ran.
 
-### 5. What should a senior engineer check in code review?
+### 5. A request sometimes hangs without a response. How would you debug the middleware chain?
 
-Is the controller thin? Are validation and auth centralized? Are status codes and errors consistent?
+Add request IDs and timing logs around middleware boundaries, then look for paths that neither send nor call `next`. I would also check async branches where a promise rejection or early return bypasses the intended response path.
 
 ---
 

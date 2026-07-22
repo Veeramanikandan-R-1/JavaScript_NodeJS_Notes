@@ -124,25 +124,25 @@ process.on("SIGTERM", () => {
 
 # Interview Questions with Answers
 
-### 1. How would you explain Health Checks and Graceful Shutdown in a real backend project?
+### 1. Why should liveness and readiness be separate endpoints?
 
-Health Checks and Graceful Shutdown should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Liveness answers whether the process should be restarted. Readiness answers whether the instance should receive traffic. A database outage may make readiness fail while liveness stays healthy, because restarting every pod would amplify the incident instead of fixing the database.
 
-### 2. What happens internally when Health Checks and Graceful Shutdown is involved?
+### 2. During a Kubernetes rolling deploy, users see a few 502s. What shutdown bug do you suspect?
 
-Production services run under process managers, containers, orchestrators, load balancers, and monitoring systems. Config, secrets, logging, metrics, health checks, deployments, and rollback plans are part of the application. Graceful shutdown coordinates HTTP servers, queues, timers, and database connections during deploys or crashes.
+The app is probably closing before the load balancer stops sending traffic, or it is killing in-flight requests too quickly. On SIGTERM I would mark readiness false, stop accepting new connections, let current requests finish with a deadline, close queues and database pools, then exit.
 
-### 3. What is a common production bug related to Health Checks and Graceful Shutdown?
+### 3. Should a health check run a real database query every second?
 
-Hardcoding dev config into production code.
+Usually no. A readiness check can verify critical dependency availability, but it should be cheap, bounded by a timeout, and protected from stampeding the database. Deep checks belong in synthetic monitoring or lower-frequency diagnostics.
 
-### 4. How would you debug an issue in Health Checks and Graceful Shutdown?
+### 4. How do graceful shutdown rules change when the service consumes background jobs?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+The worker should stop pulling new jobs, finish or extend leases for in-progress work, and release or requeue anything it cannot complete before the shutdown deadline. Otherwise deploys create duplicates, stuck locks, or half-applied side effects.
 
-### 5. What should a senior engineer check in code review?
+### 5. What would you test before trusting graceful shutdown in production?
 
-Can this deploy safely? Can this shut down gracefully? Can we diagnose it at 2 AM?
+I would send SIGTERM during a slow HTTP request, during a database call, and while a job is running. The expected behavior is no new traffic after readiness flips, bounded drain time, clean resource closure, and clear logs for forced termination.
 
 ---
 

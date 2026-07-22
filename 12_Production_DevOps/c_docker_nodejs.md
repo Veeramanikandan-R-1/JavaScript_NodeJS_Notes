@@ -123,25 +123,25 @@ CMD ["node", "src/server.js"]
 
 # Interview Questions with Answers
 
-### 1. How would you explain Docker for Node.js Services in a real backend project?
+### 1. What does a production-quality Dockerfile for a Node.js service need beyond "FROM node"?
 
-Docker for Node.js Services should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It should use a pinned supported base image, npm ci, production dependencies only in the final image, a non-root user, a small build context, explicit working directory, and a sensible command. Multi-stage builds help keep compilers, test files, and dev dependencies out of runtime.
 
-### 2. What happens internally when Docker for Node.js Services is involved?
+### 2. Why can Node apps ignore SIGTERM inside Docker, and how do you prevent it?
 
-Production services run under process managers, containers, orchestrators, load balancers, and monitoring systems. Config, secrets, logging, metrics, health checks, deployments, and rollback plans are part of the application. Graceful shutdown coordinates HTTP servers, queues, timers, and database connections during deploys or crashes.
+If Node is hidden behind a shell wrapper or a poor entrypoint, signals may not reach the process correctly. Use exec-form CMD, avoid unnecessary shell scripts, and make the app handle SIGTERM by draining HTTP servers and background work.
 
-### 3. What is a common production bug related to Docker for Node.js Services?
+### 3. Should node_modules be copied from the host into the image?
 
-Hardcoding dev config into production code.
+No for a reliable production image. Install inside the image with npm ci so native modules match the container OS and lockfile. Host node_modules causes platform drift and makes builds hard to reproduce.
 
-### 4. How would you debug an issue in Docker for Node.js Services?
+### 4. How do you handle secrets in containers?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Pass secrets through the orchestrator or secret manager at runtime, not through Dockerfile ENV, build args, or committed .env files. Also make sure logs and crash dumps do not echo secret values.
 
-### 5. What should a senior engineer check in code review?
+### 5. What checks would you run before approving a Node Docker image?
 
-Can this deploy safely? Can this shut down gracefully? Can we diagnose it at 2 AM?
+I would check image size, dependency lockfile use, CVE scan results, non-root execution, health/readiness integration, signal behavior, correct exposed port, and whether the image can run with only runtime configuration supplied.
 
 ---
 

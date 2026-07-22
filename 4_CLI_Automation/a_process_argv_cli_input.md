@@ -125,25 +125,25 @@ process.exit(1);
 
 # Interview Questions with Answers
 
-### 1. How would you explain Command Line Arguments and CLI Input in a real backend project?
+### 1. A migration script accepts `--tenant`, `--dry-run`, and optional stdin JSON. How would you design the argument handling so it is safe to run in production?
 
-Command Line Arguments and CLI Input should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I would use a parser, require explicit tenant selection, validate stdin before doing any work, and make `--dry-run` print the exact planned writes. Risky commands should fail closed: no default tenant, no silent overwrite, clear stderr, and a non-zero exit code on validation errors.
 
-### 2. What happens internally when Command Line Arguments and CLI Input is involved?
+### 2. When do you read from `process.argv` directly, and when do you bring in yargs or commander?
 
-A CLI is a Node.js process with arguments, stdin, stdout, stderr, exit codes, and environment variables. Long-running CLI tools need cancellation, progress output, and careful filesystem safety. Many automation scripts become production dependencies, so they deserve tests and predictable behavior.
+Direct `process.argv` is fine for a tiny one-off command with one or two positional arguments. Once there are flags, defaults, aliases, help text, subcommands, or validation, a real parser gives a more reliable contract and fewer production surprises.
 
-### 3. What is a common production bug related to Command Line Arguments and CLI Input?
+### 3. A CLI works locally but fails in CI because it cannot find a template file. What would you check first?
 
-Parsing process.argv manually once the command shape grows.
+I would check whether the code confused `process.cwd()` with the script directory. `cwd` reflects where the user launched the command, while script-relative assets should be resolved from `__dirname` or `import.meta.url`.
 
-### 4. How would you debug an issue in Command Line Arguments and CLI Input?
+### 4. How should a backend CLI use stdout and stderr?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Machine-readable output should go to stdout so it can be piped to another command. Progress, warnings, prompts, and errors belong on stderr, otherwise automation that parses stdout becomes fragile.
 
-### 5. What should a senior engineer check in code review?
+### 5. What exit codes would you expect from a well-behaved internal automation CLI?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+`0` means the requested operation completed successfully. Invalid input, missing config, partial failure, and unexpected exceptions should return non-zero codes, with enough stderr context for CI logs or an on-call engineer to diagnose the failure.
 
 ---
 

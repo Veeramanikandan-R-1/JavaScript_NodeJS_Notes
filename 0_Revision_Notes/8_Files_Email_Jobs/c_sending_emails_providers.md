@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Sending Emails with Providers in a real backend project?
+### 1. Why should password reset emails usually be sent through a background job instead of directly in the request?
 
-Sending Emails with Providers should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+The user-facing request should not depend on provider latency or temporary email failures. I would create the reset token transactionally, enqueue an email job, and return a neutral response. The worker can retry provider errors, track delivery status, and avoid making the API slow or flaky.
 
-### 2. What happens internally when Sending Emails with Providers is involved?
+### 2. How do you prevent duplicate emails when a job is retried?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+Retries must be idempotent. I would store an email intent with a stable idempotency key, include that key in job payloads, and record provider message ids or send status. If the worker receives the same job again, it should detect that the intent is already sent or superseded instead of sending a second email blindly.
 
-### 3. What is a common production bug related to Sending Emails with Providers?
+### 3. What provider-level issues matter in a production email system?
 
-Learning only framework syntax and skipping runtime behavior.
+I look for rate limits, bounce and complaint webhooks, SPF/DKIM/DMARC setup, sandbox versus production domains, template rendering failures, and provider failover behavior. Good email code also separates transactional messages from marketing traffic so reputation problems in one stream do not break the other.
 
-### 4. How would you debug an issue in Sending Emails with Providers?
+### 4. A candidate says the email API returned 202, so the email was delivered. Is that correct?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+No. A 202 or success response usually means the provider accepted the message, not that the recipient received it. Delivery, bounce, deferral, spam placement, and complaints arrive later through provider events. The app should track accepted versus delivered versus bounced as different states.
 
-### 5. What should a senior engineer check in code review?
+### 5. What data should not go into email templates or logs?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would avoid putting secrets, raw reset tokens, full access links in logs, sensitive PII, or internal error details into templates or telemetry. Reset links should use short-lived tokens, and logs should reference message ids and intent ids rather than full message bodies.
 
 ---
 

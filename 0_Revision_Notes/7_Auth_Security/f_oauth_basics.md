@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain OAuth Basics for Node APIs in a real backend project?
+### 1. In OAuth, what is the difference between the resource owner, client, authorization server, and resource server?
 
-OAuth Basics for Node APIs should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+The resource owner is the user, the client is the app asking for access, the authorization server issues tokens, and the resource server hosts the API being accessed. Mixing up these roles usually leads to confused security decisions.
 
-### 2. What happens internally when OAuth Basics for Node APIs is involved?
+### 2. Why should a backend web app use authorization code flow with PKCE instead of implicit flow?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+Authorization code with PKCE keeps tokens out of the URL fragment and protects the code exchange from interception. Implicit flow is legacy for most modern apps and has weaker token handling properties.
 
-### 3. What is a common production bug related to OAuth Basics for Node APIs?
+### 3. What should you validate when handling an OAuth callback?
 
-Putting sensitive data into JWT payloads.
+Validate `state` to prevent CSRF, verify the code exchange with the expected redirect URI and PKCE verifier, and validate any ID token issuer, audience, expiry, and nonce when OpenID Connect is involved.
 
-### 4. How would you debug an issue in OAuth Basics for Node APIs?
+### 4. How do OAuth scopes affect backend authorization?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Scopes describe delegated permissions granted to the client, not every business rule in your app. The backend still needs resource ownership, tenant, account status, and policy checks before allowing actions.
 
-### 5. What should a senior engineer check in code review?
+### 5. How would you store and refresh provider access tokens safely?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+Store tokens encrypted or in a protected credential store, keep refresh tokens especially restricted, and rotate when the provider supports it. Handle refresh failures by marking the connection unhealthy rather than retrying forever with bad credentials.
 
 ---
 

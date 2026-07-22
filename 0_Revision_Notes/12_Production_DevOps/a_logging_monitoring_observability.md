@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Logging, Monitoring, and Observability in a real backend project?
+### 1. A checkout API has intermittent p99 latency spikes, but the logs only say "request failed". What would you add first?
 
-Logging, Monitoring, and Observability should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I would add structured logs with request id, route, status, duration, user-safe tenant context, and dependency timings. Then I would expose RED metrics and traces around database, cache, queue, and outbound HTTP calls. The goal is to separate slow app code from slow dependencies without logging payloads or creating high-cardinality metric labels.
 
-### 2. What happens internally when Logging, Monitoring, and Observability is involved?
+### 2. Which signals should page someone, and which should only create dashboard noise?
 
-Production services run under process managers, containers, orchestrators, load balancers, and monitoring systems. Config, secrets, logging, metrics, health checks, deployments, and rollback plans are part of the application. Graceful shutdown coordinates HTTP servers, queues, timers, and database connections during deploys or crashes.
+Pages should come from user-impacting symptoms: elevated 5xx rate, SLO burn, sustained p95 or p99 latency, failed job backlog, or dependency saturation. CPU and memory are useful supporting signals, but by themselves they should usually warn, not page, unless they predict an outage.
 
-### 3. What is a common production bug related to Logging, Monitoring, and Observability?
+### 3. What fields belong in production logs for an authenticated API request?
 
-Hardcoding dev config into production code.
+Use timestamp, level, service, environment, request id, trace id, route template, method, status, duration, caller identity or tenant id when safe, and sanitized error metadata. Never log passwords, tokens, full cards, raw cookies, or request bodies that may contain personal data.
 
-### 4. How would you debug an issue in Logging, Monitoring, and Observability?
+### 4. How do you keep tracing useful without making it too expensive?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Propagate trace context everywhere, sample normal traffic, keep slow and failed requests at a higher rate, and add spans only around meaningful boundaries. I would avoid span-per-function tracing because it increases cost and hides the important dependency timings.
 
-### 5. What should a senior engineer check in code review?
+### 5. What would you expect on a healthy service dashboard?
 
-Can this deploy safely? Can this shut down gracefully? Can we diagnose it at 2 AM?
+Throughput, latency percentiles, error rate, saturation, deploy markers, dependency latency, queue depth, job failures, and top error classes. A senior dashboard lets an on-call engineer answer: is it broken, who is affected, what changed, and which dependency is suspicious.
 
 ---
 

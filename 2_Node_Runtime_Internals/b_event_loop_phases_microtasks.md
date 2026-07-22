@@ -125,25 +125,25 @@ console.log("sync");
 
 # Interview Questions with Answers
 
-### 1. How would you explain Event Loop Phases and Microtasks in a real backend project?
+### 1. In what order do timers, I/O callbacks, `setImmediate`, promises, and `process.nextTick` usually run?
 
-Event Loop Phases and Microtasks should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Node runs event loop phases such as timers, poll, and check, but drains `process.nextTick` and promise microtasks at checkpoints between phases. `process.nextTick` has priority over promise microtasks, which is why it must be used carefully.
 
-### 2. What happens internally when Event Loop Phases and Microtasks is involved?
+### 2. Why can recursive `process.nextTick` calls break a healthy service?
 
-JavaScript executes on the main thread; libuv and the operating system handle asynchronous I/O behind the scenes. The event loop advances through phases, while microtasks and process.nextTick run at special checkpoints. CPU-heavy JavaScript blocks the event loop unless it is moved to worker threads, separate processes, or external systems.
+They can starve the event loop by keeping Node busy before it returns to I/O, timers, or `setImmediate`. In production this looks like sockets hanging even though the process is still alive.
 
-### 3. What is a common production bug related to Event Loop Phases and Microtasks?
+### 3. When would you choose `setImmediate` over `setTimeout(fn, 0)`?
 
-Saying Node.js is multithreaded without separating JavaScript execution, libuv thread pool work, worker threads, and cluster workers.
+Use `setImmediate` when you want work to run in the check phase after the current poll cycle, especially after I/O. `setTimeout(fn, 0)` is timer-based and its ordering can vary depending on where it is scheduled.
 
-### 4. How would you debug an issue in Event Loop Phases and Microtasks?
+### 4. A service has low CPU but high latency. How can the event loop still be involved?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+The loop may be waiting on slow I/O, saturated downstreams, thread pool work, or queues of callbacks. I would compare event loop delay, active handles, downstream latency, and concurrency limits.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is a bad use of microtasks in backend code?
 
-Does this block the event loop? Which work uses libuv or the OS? How would I measure delay under load?
+Using promise chains or `nextTick` recursion to process large queues without yielding. Batch the work and yield with `setImmediate`, streams, queues, or backpressure-aware mechanisms.
 
 ---
 

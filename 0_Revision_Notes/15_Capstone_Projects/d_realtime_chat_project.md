@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Capstone: Realtime Chat App in a real backend project?
+### 1. Architecture review: what are the main backend components?
 
-Capstone: Realtime Chat App should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use HTTP for login and room management, a WebSocket gateway for realtime events, a message service for persistence, and a pub/sub adapter such as Redis when scaling beyond one process. Keep room authorization out of the socket event handler body.
 
-### 2. What happens internally when Capstone: Realtime Chat App is involved?
+### 2. Edge-case review: what breaks chat apps in interviews?
 
-A capstone should prove you can build, test, secure, deploy, and operate a backend feature set. Project quality shows in boundaries, edge cases, tests, documentation, and operational behavior. The best backend projects are small enough to finish and deep enough to expose real tradeoffs.
+Reconnects can duplicate messages, users can send before joining, room membership can change mid-connection, messages may arrive out of order across nodes, and offline users need a clear unread or missed-message strategy.
 
-### 3. What is a common production bug related to Capstone: Realtime Chat App?
+### 3. Testing review: how do you test realtime behavior?
 
-Building many shallow endpoints with no validation, auth, tests, or deployment story.
+Run multi-client socket integration tests for join, leave, send, unauthorized room access, disconnect, reconnect, and duplicate delivery. Unit-test message validation and use fake timers for heartbeat or idle-timeout behavior.
 
-### 4. How would you debug an issue in Capstone: Realtime Chat App?
+### 4. Security review: what would you check before exposing sockets publicly?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Authenticate the handshake, authorize every room subscription, validate message size and type, rate-limit sends, restrict allowed origins, and avoid trusting user ids sent in socket payloads.
 
-### 5. What should a senior engineer check in code review?
+### 5. Deployability review: what changes when the chat service runs on multiple instances?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+You need sticky sessions or a compatible adapter, shared pub/sub for room events, graceful socket draining on deploy, connection and message-rate metrics, and a plan for Redis or broker failure.
 
 ---
 

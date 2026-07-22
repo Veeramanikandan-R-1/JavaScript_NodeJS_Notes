@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain TCP, UDP, and Node Networking in a real backend project?
+### 1. How do TCP and UDP differences affect backend design?
 
-TCP, UDP, and Node Networking should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+TCP gives ordered, reliable byte streams with congestion control, so it suits HTTP, WebSockets, database connections, and most application protocols. UDP is message-oriented and does not guarantee delivery or ordering, so the application must handle loss, duplication, and sequencing if it cares. I would choose UDP only when latency or custom transport behavior is worth that extra complexity.
 
-### 2. What happens internally when TCP, UDP, and Node Networking is involved?
+### 2. What does it mean that TCP is a stream, not a message protocol?
 
-Realtime systems keep long-lived connections and push events instead of relying only on request-response polling. WebSockets provide bidirectional communication; Socket.io adds reconnection, fallbacks, rooms, and acknowledgements. Presence and room state must be carefully owned when the app runs across multiple processes.
+A single `data` event may contain half a message, one message, or multiple messages. The application must implement framing, such as length-prefixing or delimiters, and buffer partial input safely. Treating each chunk as one complete message is a classic networking bug.
 
-### 3. What is a common production bug related to TCP, UDP, and Node Networking?
+### 3. How would you protect a raw TCP server from slow or abusive clients?
 
-Storing room state only in memory and then scaling to multiple instances.
+I would set socket timeouts, cap buffer sizes, reject oversized frames, limit concurrent connections per source, and apply backpressure when writes return false. I would also log connection lifecycle and parse errors, because raw TCP lacks the guardrails Express gives you for HTTP.
 
-### 4. How would you debug an issue in TCP, UDP, and Node Networking?
+### 4. Why can writing too fast to a socket become a memory problem?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+`socket.write()` queues data when the kernel or peer cannot keep up. If the code ignores the boolean return value and keeps writing, memory can grow until the process is unhealthy. The fix is to pause producing data and resume on the `drain` event.
 
-### 5. What should a senior engineer check in code review?
+### 5. When would you reach for Node's `net` or `dgram` modules directly?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would use them for custom protocols, internal agents, telemetry collectors, proxies, or integration with legacy systems. For normal product APIs I would use HTTP or WebSockets, because tooling, observability, security, and operational support are much better.
 
 ---
 

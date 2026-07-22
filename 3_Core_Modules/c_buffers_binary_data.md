@@ -120,25 +120,25 @@ console.log(Buffer.from("aGVsbG8=", "base64").toString("utf8"));
 
 # Interview Questions with Answers
 
-### 1. How would you explain Buffers and Binary Data in a real backend project?
+### 1. What is the difference between `Buffer.alloc()` and `Buffer.allocUnsafe()`?
 
-Buffers and Binary Data should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+`Buffer.alloc()` zero-fills memory; `allocUnsafe()` may return memory containing old data until you overwrite it. Use unsafe allocation only when you immediately fill every byte and have measured the need.
 
-### 2. What happens internally when Buffers and Binary Data is involved?
+### 2. Why can converting arbitrary binary data to a string corrupt it?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+String conversion applies an encoding such as UTF-8, which may reinterpret bytes or replace invalid sequences. Keep data as `Buffer` unless the protocol explicitly says it is text.
 
-### 3. What is a common production bug related to Buffers and Binary Data?
+### 3. How do buffers affect memory monitoring in Node.js?
 
-Building paths with string concatenation instead of the path module.
+Buffers use external memory outside the V8 heap, so heap size alone can hide pressure. Check `process.memoryUsage().external` and `arrayBuffers` when diagnosing binary-heavy services.
 
-### 4. How would you debug an issue in Buffers and Binary Data?
+### 4. What is the safe way to assemble many buffer chunks from a stream?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Track the total size, enforce a limit, and use `Buffer.concat(chunks, totalLength)` when the data is known to fit in memory. For large data, process incrementally instead of concatenating everything.
 
-### 5. What should a senior engineer check in code review?
+### 5. Where do buffer bugs usually show up in backend systems?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+File uploads, image processing, cryptography, compression, WebSocket frames, and binary protocols. I look for size limits, encoding assumptions, unsafe allocation, and unnecessary full-buffer copies.
 
 ---
 

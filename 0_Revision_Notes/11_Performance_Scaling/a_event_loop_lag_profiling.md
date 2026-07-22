@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Event Loop Lag and Profiling in a real backend project?
+### 1. What is event-loop lag, and why does it matter for an API?
 
-Event Loop Lag and Profiling should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Event-loop lag is the delay between when Node should run a callback and when it actually can. High lag means JavaScript is busy or blocked, so even simple requests, timers, and socket handling wait. Users experience it as latency spikes across unrelated endpoints.
 
-### 2. What happens internally when Event Loop Lag and Profiling is involved?
+### 2. How would you detect event-loop lag in production?
 
-Node performance is usually about event loop health, I/O latency, payload size, database queries, and CPU hotspots. The libuv thread pool handles selected blocking native operations; cluster and PM2 scale across CPU cores with multiple processes. Worker threads parallelize CPU-heavy JavaScript inside a process.
+I would collect event-loop delay metrics with `perf_hooks.monitorEventLoopDelay()` or an APM agent, then correlate spikes with CPU, GC, endpoint traffic, payload sizes, and deployments. Logs should include request duration and route names so lag can be tied to specific workloads.
 
-### 3. What is a common production bug related to Event Loop Lag and Profiling?
+### 3. What kinds of code commonly block the event loop?
 
-Adding cluster workers before fixing slow queries or blocking JavaScript.
+Large JSON parse/stringify, synchronous filesystem or crypto calls, expensive regex, CPU-heavy loops, compression, image processing, and processing huge arrays in one tick are common causes. The fix is to stream, chunk work, move CPU tasks to workers, or use native services where appropriate.
 
-### 4. How would you debug an issue in Event Loop Lag and Profiling?
+### 4. How do you profile a Node.js process with suspected CPU bottlenecks?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I would reproduce under load, capture a CPU profile using the inspector or `--cpu-prof`, and inspect flamegraphs for hot functions. I would also compare wall time with event-loop delay and GC metrics so I do not mistake database waiting for CPU saturation.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is a good remediation if JSON responses are causing lag?
 
-What is the measured bottleneck? Can this scale statelessly? What happens at p99 latency?
+I would reduce payload size, paginate, avoid building massive objects in memory, stream where the client supports it, and consider faster serialization only after measuring. The best fix is usually changing the API shape so the server does less work per request.
 
 ---
 

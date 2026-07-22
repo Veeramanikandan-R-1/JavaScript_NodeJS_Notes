@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Deployment and CI/CD in a real backend project?
+### 1. What stages do you expect in a CI/CD pipeline for a backend API?
 
-Deployment and CI/CD should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Install from lockfile, lint, type or static checks if used, unit tests, integration tests with real dependencies where practical, build artifact, security/dependency scan, migration check, deploy to staging, smoke test, then progressive production rollout.
 
-### 2. What happens internally when Deployment and CI/CD is involved?
+### 2. How would you deploy a database schema change without downtime?
 
-Production services run under process managers, containers, orchestrators, load balancers, and monitoring systems. Config, secrets, logging, metrics, health checks, deployments, and rollback plans are part of the application. Graceful shutdown coordinates HTTP servers, queues, timers, and database connections during deploys or crashes.
+Make it backward compatible: add nullable columns or new tables first, deploy code that writes both or understands both shapes, backfill safely, switch reads, then remove old fields in a later deploy. One deploy should not require every instance to change at the same millisecond.
 
-### 3. What is a common production bug related to Deployment and CI/CD?
+### 3. A canary deploy shows higher latency but no error spike. Do you roll forward or back?
 
-Hardcoding dev config into production code.
+I would pause rollout, compare canary versus baseline by route and dependency, inspect traces and resource saturation, then decide. If latency breaches SLO or keeps worsening, roll back quickly; if it is a known cold-start or cache-warmup effect, continue only with evidence.
 
-### 4. How would you debug an issue in Deployment and CI/CD?
+### 4. What makes rollback unsafe even when the previous image still exists?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Irreversible migrations, changed message formats, incompatible cache keys, external API side effects, and feature flags left in a bad state can all break rollback. Good release design includes backward compatibility and a practiced rollback path.
 
-### 5. What should a senior engineer check in code review?
+### 5. Where should deployment configuration live?
 
-Can this deploy safely? Can this shut down gracefully? Can we diagnose it at 2 AM?
+Defaults can live in code, environment-specific values in deployment config, and secrets in a secret manager. A pipeline should promote the same artifact across environments instead of rebuilding different code for staging and production.
 
 ---
 

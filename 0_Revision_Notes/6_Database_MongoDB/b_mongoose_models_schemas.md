@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Mongoose Models and Schemas in a real backend project?
+### 1. What does a Mongoose schema give you beyond a plain MongoDB collection?
 
-Mongoose Models and Schemas should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+It gives casting, defaults, validation, middleware hooks, virtuals, instance methods, and a model API. Those are useful, but they also create behavior that reviewers must understand because not every rule lives in the database.
 
-### 2. What happens internally when Mongoose Models and Schemas is involved?
+### 2. Why can Mongoose casting be both helpful and dangerous?
 
-A Node API talks to databases through drivers or ORMs/ODMs that manage network calls and serialization. MongoDB stores documents; Mongoose adds schemas, validation, middleware, and model methods. Database performance depends heavily on indexes, query shape, connection pooling, and result size.
+Casting makes common inputs convenient, such as string ids becoming ObjectIds. It is dangerous when invalid or surprising input is quietly transformed, so critical fields still need explicit boundary validation.
 
-### 3. What is a common production bug related to Mongoose Models and Schemas?
+### 3. Where should you put business rules: schema validators, middleware, or services?
 
-Trusting request bodies and storing them directly.
+Simple document invariants can live in schema validation. Cross-document rules, authorization decisions, external calls, and workflow behavior belong in services because hooks can hide side effects and make tests harder.
 
-### 4. How would you debug an issue in Mongoose Models and Schemas?
+### 4. How do `lean()` queries change behavior?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+`lean()` returns plain JavaScript objects instead of hydrated Mongoose documents, which is faster and lighter for read-only responses. You lose document methods, getters, virtuals unless enabled, and change tracking.
 
-### 5. What should a senior engineer check in code review?
+### 5. What is a common production issue with Mongoose middleware?
 
-Is the query indexed? Is the result bounded? Does the data model enforce the invariant?
+Hooks can run on some operations but not others, for example document `save` hooks versus update queries. If critical behavior depends on middleware, tests must cover the exact write method used by the API.
 
 ---
 

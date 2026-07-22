@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Mocking External Services in a real backend project?
+### 1. When would you mock an external service instead of calling its sandbox?
 
-Mocking External Services should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+For normal unit and integration tests, I mock the external boundary so tests are fast, deterministic, and do not depend on provider uptime or rate limits. I still keep a smaller set of contract or smoke tests against the sandbox to catch drift in provider behavior.
 
-### 2. What happens internally when Mocking External Services is involved?
+### 2. What is the risk of mocking an SDK method directly?
 
-A good backend test suite checks pure functions, services, HTTP behavior, database integration, and critical production flows. Jest runs test files in isolated workers; async tests must return or await promises. Supertest drives Express apps without requiring a real network port.
+SDK internals can change, and your mock may not match the real HTTP contract or error shape. I prefer wrapping provider SDKs behind a small adapter that my application owns. Then tests mock the adapter, while adapter-level tests verify mapping to the provider.
 
-### 3. What is a common production bug related to Mocking External Services?
+### 3. How do you test webhook handling from a payment or email provider?
 
-Mocking so much that the test no longer proves production behavior.
+I would verify signature validation, timestamp tolerance, idempotency, event ordering assumptions, and the domain state change caused by the event. The test should include duplicate delivery because providers commonly retry webhooks. It should also reject malformed or unsigned payloads.
 
-### 4. How would you debug an issue in Mocking External Services?
+### 4. What should a mock response include besides the happy-path data?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+It should include realistic status codes, provider error codes, retry-after headers if relevant, timeouts, malformed responses, and rate-limit cases. Production incidents often come from edge responses, not from the simple success response in the documentation.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you know your mocks have not drifted from the real provider?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I use provider contract tests, recorded fixtures when appropriate, schema validation, and periodic sandbox smoke tests in CI or scheduled checks. The adapter should fail loudly when it receives an unknown status or event type so drift is visible.
 
 ---
 

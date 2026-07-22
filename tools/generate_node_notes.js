@@ -1695,28 +1695,10 @@ function seniorDeepDive(topic) {
 
 function interview(topic) {
   if (topic.interview) return topic.interview;
-  return [
-    {
-      q: `How would you explain ${topic.title} in a real backend project?`,
-      a: `${topic.title} should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.`,
-    },
-    {
-      q: `What happens internally when ${topic.title} is involved?`,
-      a: topic.internals.slice(0, 3).join(" "),
-    },
-    {
-      q: `What is a common production bug related to ${topic.title}?`,
-      a: topic.mistakes[0],
-    },
-    {
-      q: `How would you debug an issue in ${topic.title}?`,
-      a: `Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.`,
-    },
-    {
-      q: `What should a senior engineer check in code review?`,
-      a: seniorDeepDive(topic).join(" "),
-    },
-  ];
+  throw new Error(
+    `Missing curated interview questions for ${topic.folder}/${topic.file}. ` +
+      "Do not generate generic interview Q&A; add real interviewer-style questions manually.",
+  );
 }
 
 function exercises(topic) {

@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Setup, Tooling, and Project Workflow in a real backend project?
+### 1. What do you check in a new Node.js service before you trust it on your machine?
 
-Setup, Tooling, and Project Workflow should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I check the Node version, package manager, lockfile, scripts, environment variable expectations, test command, lint or format command, and whether setup is documented. A reproducible local workflow prevents team-level drift.
 
-### 2. What happens internally when Setup, Tooling, and Project Workflow is involved?
+### 2. Why do teams pin Node versions with `.nvmrc`, `.node-version`, Volta, or engines?
 
-Node.js runs JavaScript on V8 and exposes server-side APIs through native bindings and libuv. A backend request normally flows through networking, routing, validation, business logic, persistence, and response serialization. Good backend code is measured by correctness, latency, reliability, security, observability, and maintainability.
+Node version differences can change module behavior, built-in APIs, OpenSSL behavior, test results, and package compatibility. Pinning the runtime makes local, CI, and production behavior easier to compare.
 
-### 3. What is a common production bug related to Setup, Tooling, and Project Workflow?
+### 3. What belongs in `npm scripts` for a backend project?
 
-Learning only framework syntax and skipping runtime behavior.
+At minimum: start, dev, test, lint or check, format if used, and migration or build commands when relevant. Scripts should hide tool flags so CI and developers run the same workflow.
 
-### 4. How would you debug an issue in Setup, Tooling, and Project Workflow?
+### 4. A service works locally but fails in CI after install. What do you investigate first?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+I compare Node and package manager versions, lockfile usage, environment variables, native dependency builds, postinstall scripts, and OS assumptions. Most CI-only failures come from unreproducible installs or missing configuration.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you keep tooling helpful without slowing down the team?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Automate checks that catch real defects, keep commands fast, run stricter checks in CI when needed, and document the escape hatches. Tooling should reduce review noise, not become the work.
 
 ---
 

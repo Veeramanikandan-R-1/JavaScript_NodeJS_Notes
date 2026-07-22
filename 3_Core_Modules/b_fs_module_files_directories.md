@@ -127,25 +127,25 @@ export async function readJson(file) {
 
 # Interview Questions with Answers
 
-### 1. How would you explain fs Module, Files, and Directories in a real backend project?
+### 1. When would you use `fs.promises.readFile()` versus a readable stream?
 
-fs Module, Files, and Directories should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Use `readFile()` for small bounded files where loading the whole content is acceptable. Use streams for large files, uploads, downloads, logs, and anything where memory usage or backpressure matters.
 
-### 2. What happens internally when fs Module, Files, and Directories is involved?
+### 2. Why is checking `fs.access()` and then opening a file often a race condition?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+The filesystem can change between the check and the operation. Prefer opening with the right flags and handling the resulting error, especially for create-if-not-exists or permission-sensitive flows.
 
-### 3. What is a common production bug related to fs Module, Files, and Directories?
+### 3. How do you write a file atomically enough for a backend config or cache file?
 
-Building paths with string concatenation instead of the path module.
+Write to a temporary file in the same directory, flush when durability matters, then rename it over the target. Rename is atomic on the same filesystem, which prevents readers from seeing partial content.
 
-### 4. How would you debug an issue in fs Module, Files, and Directories?
+### 4. What is dangerous about synchronous filesystem calls in request handlers?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+They block the event loop, so unrelated requests wait even if the disk operation is slow. Synchronous file work is acceptable at startup scripts, but not in hot request paths.
 
-### 5. What should a senior engineer check in code review?
+### 5. What filesystem errors should backend code treat as normal operational outcomes?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+`ENOENT`, `EEXIST`, `EACCES`, `EMFILE`, and `ENOSPC` are common and should produce clear behavior. A senior implementation handles these deliberately instead of turning all of them into generic 500s.
 
 ---
 

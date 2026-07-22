@@ -128,25 +128,25 @@ console.log(path.join(uploadsDir, "avatar.png"));
 
 # Interview Questions with Answers
 
-### 1. How would you explain path Module and Safe Paths in a real backend project?
+### 1. A user uploads a filename and you need to save it under `uploads/`. How do you prevent path traversal?
 
-path Module and Safe Paths should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Build the final path from a trusted base, resolve it, and verify the resolved path still starts inside that base directory. Also strip or replace user filenames when possible instead of trusting path-like input.
 
-### 2. What happens internally when path Module and Safe Paths is involved?
+### 2. What is the difference between `path.join()` and `path.resolve()`?
 
-Core modules are part of Node.js and do not require npm installation. Many core APIs expose both callback and promise variants; modern application code usually prefers promise APIs. Streams, HTTP requests, process I/O, and many filesystem objects are event-driven abstractions.
+`join()` concatenates and normalizes segments; `resolve()` produces an absolute path and resets when it sees an absolute segment. Security checks usually need `resolve()` against a known base.
 
-### 3. What is a common production bug related to path Module and Safe Paths?
+### 3. Why can `path.normalize()` be unsafe if used alone on user input?
 
-Building paths with string concatenation instead of the path module.
+It cleans syntax but does not prove the path is allowed. `../../secrets` can normalize neatly while still escaping the intended directory after resolution.
 
-### 4. How would you debug an issue in path Module and Safe Paths?
+### 4. How do Windows paths affect backend path handling?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Separators, drive letters, case behavior, and absolute path rules differ from POSIX. Use `path` APIs and tests for both `path.win32` and `path.posix` when code handles user-visible paths.
 
-### 5. What should a senior engineer check in code review?
+### 5. When is it better to generate your own storage key instead of preserving the original filename?
 
-Does this handle large data safely? Are paths and errors cross-platform? Would a stream or pipeline be safer?
+For uploads and multi-tenant data, generated keys avoid collisions, path traversal, unsafe characters, and privacy leaks. Keep the original filename as metadata after validation if the UI needs it.
 
 ---
 

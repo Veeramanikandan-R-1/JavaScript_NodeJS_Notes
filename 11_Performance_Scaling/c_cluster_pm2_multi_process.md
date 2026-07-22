@@ -124,25 +124,25 @@ pm2 logs
 
 # Interview Questions with Answers
 
-### 1. How would you explain Cluster, PM2, and Multi-process Scaling in a real backend project?
+### 1. Why does clustering help a Node.js HTTP server?
 
-Cluster, PM2, and Multi-process Scaling should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+A single Node process runs JavaScript on one main thread, so it cannot use all CPU cores for request handling. Clustering runs multiple processes that share incoming traffic, improving CPU utilization and isolation. It does not make shared memory magically safe; each process has its own heap.
 
-### 2. What happens internally when Cluster, PM2, and Multi-process Scaling is involved?
+### 2. What breaks when you move from one process to multiple processes?
 
-Node performance is usually about event loop health, I/O latency, payload size, database queries, and CPU hotspots. The libuv thread pool handles selected blocking native operations; cluster and PM2 scale across CPU cores with multiple processes. Worker threads parallelize CPU-heavy JavaScript inside a process.
+In-memory sessions, local caches, scheduled jobs, rate limit counters, and WebSocket room state stop being globally correct. Anything that must be shared needs Redis, a database, a queue, or another external coordination mechanism. Multi-process scaling exposes hidden state assumptions.
 
-### 3. What is a common production bug related to Cluster, PM2, and Multi-process Scaling?
+### 3. How should graceful shutdown work in a clustered app?
 
-Adding cluster workers before fixing slow queries or blocking JavaScript.
+The process should stop accepting new connections, let in-flight requests finish within a timeout, close database and queue connections, and exit with a clear code. The process manager can then replace it. For WebSockets, you also need a drain or reconnect strategy.
 
-### 4. How would you debug an issue in Cluster, PM2, and Multi-process Scaling?
+### 4. What is PM2 responsible for, and what is still your application's responsibility?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+PM2 can run multiple instances, restart crashed processes, manage logs, and help with zero-downtime reloads. The application still owns health checks, graceful shutdown, idempotent startup, external state, and correct behavior during restarts.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you decide between vertical clustering and horizontal scaling?
 
-What is the measured bottleneck? Can this scale statelessly? What happens at p99 latency?
+I use clustering to utilize cores on a machine and horizontal scaling for capacity, availability, deployment flexibility, and fault isolation. The app should be stateless enough for both. The decision depends on bottlenecks, traffic shape, infrastructure, and failure-domain requirements.
 
 ---
 

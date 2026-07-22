@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Capstone: Weather Web App in a real backend project?
+### 1. Architecture review: where should the weather provider integration live?
 
-Capstone: Weather Web App should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Keep the API key and provider client on the server, behind a small service that normalizes provider responses for the UI. The frontend should call your backend contract, not depend directly on the third-party weather API shape.
 
-### 2. What happens internally when Capstone: Weather Web App is involved?
+### 2. Edge-case review: what failures should the app handle gracefully?
 
-A capstone should prove you can build, test, secure, deploy, and operate a backend feature set. Project quality shows in boundaries, edge cases, tests, documentation, and operational behavior. The best backend projects are small enough to finish and deep enough to expose real tradeoffs.
+Unknown city, provider timeout, rate limiting, malformed provider response, stale cache, and units conversion mistakes. The UI should distinguish invalid user input from temporary upstream failure.
 
-### 3. What is a common production bug related to Capstone: Weather Web App?
+### 3. Testing review: how would you test without calling the real weather API?
 
-Building many shallow endpoints with no validation, auth, tests, or deployment story.
+Mock the provider client for service tests, add contract-shaped fixtures for success and error responses, and run integration tests against your own routes. A small UI test should cover search, loading, empty, and provider-error states.
 
-### 4. How would you debug an issue in Capstone: Weather Web App?
+### 4. Security review: what is the most common mistake in this project?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Leaking the weather API key to the browser or repository. Keep it in server-side runtime config, validate and bound city input, rate-limit the endpoint, and avoid reflecting unsanitized provider text into the page.
 
-### 5. What should a senior engineer check in code review?
+### 5. Deployability review: what makes this app production-ready enough to show?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+Document required env vars, add health checks, cache provider responses with a short TTL, log upstream failures with request ids, and make static asset hosting explicit. Also plan for provider quota exhaustion so the app fails politely.
 
 ---
 

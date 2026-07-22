@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Filtering, Pagination, and Sorting in a real backend project?
+### 1. Why is offset pagination with `skip` a problem on large MongoDB collections?
 
-Filtering, Pagination, and Sorting should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Large skips force the database to walk past many records before returning a page, which gets slower as the page number grows. Cursor pagination based on an indexed sort key is usually more stable for high-volume lists.
 
-### 2. What happens internally when Filtering, Pagination, and Sorting is involved?
+### 2. How would you design cursor pagination for a feed sorted by newest first?
 
-A Node API talks to databases through drivers or ORMs/ODMs that manage network calls and serialization. MongoDB stores documents; Mongoose adds schemas, validation, middleware, and model methods. Database performance depends heavily on indexes, query shape, connection pooling, and result size.
+Sort by `createdAt` and a tie-breaker like `_id`, then pass the last seen pair as the cursor. The next query uses a range condition on those fields so pagination remains deterministic when rows share timestamps.
 
-### 3. What is a common production bug related to Filtering, Pagination, and Sorting?
+### 3. How do you safely expose filtering to API clients?
 
-Trusting request bodies and storing them directly.
+Allowlist fields and operators, validate values, and cap limits. Do not let clients submit arbitrary Mongo filters, regexes, or sort keys because that can create slow queries or security bugs.
 
-### 4. How would you debug an issue in Filtering, Pagination, and Sorting?
+### 4. What can go wrong if sorting is not deterministic?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Records can appear on multiple pages or be skipped when many documents have the same sort value. Add a stable tie-breaker, usually `_id`, to make pagination repeatable.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you debug a list endpoint that became slow after adding filters?
 
-Is the query indexed? Is the result bounded? Does the data model enforce the invariant?
+Capture the exact filter and sort, run `explain`, and compare it to existing indexes. I would also check default limits, projections, regex use, and whether the API now allows unindexed sort combinations.
 
 ---
 

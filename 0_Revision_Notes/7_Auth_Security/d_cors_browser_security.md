@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain CORS and Browser Security Boundaries in a real backend project?
+### 1. What problem does CORS solve, and what does it not solve?
 
-CORS and Browser Security Boundaries should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+CORS controls which browser origins may read responses from your API. It is not authentication, authorization, CSRF protection by itself, or a defense for non-browser clients.
 
-### 2. What happens internally when CORS and Browser Security Boundaries is involved?
+### 2. Why is `Access-Control-Allow-Origin: *` dangerous with credentialed browser requests?
 
-Authentication proves who the caller is; authorization decides what that caller can do. JWTs are signed, not encrypted by default; anyone can decode the payload but cannot forge it without the signing secret. Browsers enforce CORS, while servers must still enforce authentication, authorization, validation, and rate limits.
+Browsers do not allow wildcard origins with credentials, and trying to work around that usually signals a broken trust boundary. Credentialed APIs should allow explicit origins and include `Vary: Origin` when responses differ by origin.
 
-### 3. What is a common production bug related to CORS and Browser Security Boundaries?
+### 3. How do preflight requests affect API behavior?
 
-Putting sensitive data into JWT payloads.
+For non-simple cross-origin requests, the browser sends an `OPTIONS` request first to check allowed methods and headers. The server must answer that preflight without requiring the actual route handler to run.
 
-### 4. How would you debug an issue in CORS and Browser Security Boundaries?
+### 4. A frontend says CORS is failing, but the API logs show a `500`. What do you investigate?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+The browser may display it as a CORS error if the failed response lacks CORS headers. I would fix the server error first and ensure error responses still pass through the CORS middleware.
 
-### 5. What should a senior engineer check in code review?
+### 5. How does CORS interact with cookies?
 
-What can an attacker control? What secrets or PII could leak? Is authorization checked at the resource level?
+Cookies require `credentials: include` on the client, `Access-Control-Allow-Credentials: true` on the server, and an explicit allowed origin. Cookie attributes such as `SameSite`, `Secure`, and domain still decide whether the browser sends them.
 
 ---
 

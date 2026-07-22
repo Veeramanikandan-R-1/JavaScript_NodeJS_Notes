@@ -123,25 +123,25 @@ const task = await db.collection("tasks").findOne({ _id: new ObjectId(id) });
 
 # Interview Questions with Answers
 
-### 1. How would you explain MongoDB Native Driver and CRUD in a real backend project?
+### 1. When would you use the native MongoDB driver instead of Mongoose?
 
-MongoDB Native Driver and CRUD should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+I would use the native driver when I want direct control over queries, aggregation, sessions, bulk writes, or a thin data layer without schema abstractions. It is also a good fit for services that already validate data at the API boundary.
 
-### 2. What happens internally when MongoDB Native Driver and CRUD is involved?
+### 2. What is the difference between `findOne`, `insertOne`, `updateOne`, and `findOneAndUpdate` from an API design perspective?
 
-A Node API talks to databases through drivers or ORMs/ODMs that manage network calls and serialization. MongoDB stores documents; Mongoose adds schemas, validation, middleware, and model methods. Database performance depends heavily on indexes, query shape, connection pooling, and result size.
+`findOne` reads, `insertOne` creates, `updateOne` reports write counts, and `findOneAndUpdate` can atomically modify and return a document. For APIs that need the updated resource in the response, `findOneAndUpdate` often avoids a race-prone second read.
 
-### 3. What is a common production bug related to MongoDB Native Driver and CRUD?
+### 3. How do you prevent a client from injecting arbitrary MongoDB operators into a filter?
 
-Trusting request bodies and storing them directly.
+Build filters from an allowlist of fields and operators instead of spreading `req.query` or `req.body` into Mongo calls. Reject objects where only scalars are expected, especially around auth-sensitive lookups.
 
-### 4. How would you debug an issue in MongoDB Native Driver and CRUD?
+### 4. What should you check when a CRUD endpoint is slow in MongoDB?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Inspect the query shape, indexes, projection, sort, limit, and explain plan. Also check whether the endpoint is fetching large documents or doing multiple round trips that could be collapsed.
 
-### 5. What should a senior engineer check in code review?
+### 5. How do you handle `ObjectId` values safely in route parameters?
 
-Is the query indexed? Is the result bounded? Does the data model enforce the invariant?
+Validate the id format before querying and convert it explicitly to `ObjectId`. If the id is invalid, return a client error or `404` based on your API policy, but do not let cast errors leak as generic `500`s.
 
 ---
 

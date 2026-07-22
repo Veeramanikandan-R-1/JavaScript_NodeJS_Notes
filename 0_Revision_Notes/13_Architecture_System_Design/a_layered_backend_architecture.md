@@ -29,25 +29,25 @@
 
 # Interview Questions & Answers
 
-### 1. How would you explain Layered Backend Architecture in a real backend project?
+### 1. In a controller-service-repository design, where should transaction boundaries live?
 
-Layered Backend Architecture should be explained through the request or process flow it affects, the runtime behavior behind it, and the production tradeoff. A senior answer connects the API to latency, correctness, failure handling, and maintainability.
+Usually in the service or application layer because it understands the full use case. Repositories should expose data operations, but they should not independently start transactions that prevent one business action from committing atomically.
 
-### 2. What happens internally when Layered Backend Architecture is involved?
+### 2. What is a smell that your controllers contain too much business logic?
 
-Architecture is the set of boundaries that lets a backend change safely as requirements grow. A request usually crosses transport, application, domain, persistence, and integration layers. The right abstraction is the one that protects business rules from framework and infrastructure churn.
+If controllers know validation rules, authorization decisions, persistence details, and orchestration, they are doing too much. They become hard to test without HTTP and impossible to reuse from jobs, CLI tasks, or message consumers.
 
-### 3. What is a common production bug related to Layered Backend Architecture?
+### 3. How do you avoid turning the service layer into a giant dumping ground?
 
-Creating too many layers before the domain needs them.
+Keep services organized around use cases or domain capabilities, not generic helpers. Use small modules with clear inputs, return values, and dependencies; move pure domain rules into domain functions when they do not need infrastructure.
 
-### 4. How would you debug an issue in Layered Backend Architecture?
+### 4. Where should authorization checks be placed in a layered backend?
 
-Reproduce the failing input, inspect logs and stack traces, isolate the boundary involved, add focused instrumentation, and write a regression test once the cause is known.
+Coarse authentication can happen in middleware, but resource-level authorization belongs close to the use case that loads the resource. That prevents direct service calls, background jobs, or alternate routes from bypassing ownership rules.
 
-### 5. What should a senior engineer check in code review?
+### 5. How would you review a PR that adds a new dependency from repository code back to HTTP middleware?
 
-What is the production failure mode? How do tests prove it? How would a teammate maintain it?
+I would block it because it reverses the dependency direction. Data access should not know about Express request objects. Pass explicit values such as tenant id or actor id into the use case instead.
 
 ---
 
